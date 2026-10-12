@@ -823,11 +823,11 @@ $('#fab').innerHTML='<span class="disc"></span><span class="ico">'+LOGO+'</span>
 /* AI icon states (Figma "AI Agent - FAB"): large -> info toast -> small -> hidden */
 let fabT=[],fabLast=0;
 function setFab(st){const f=$('#fab');f.dataset.s=st;$('#bub').classList.toggle('on',st==='toast'||false)}
-function fabSeq(){fabT.forEach(clearTimeout);fabT=[];setFab('large');
+function fabSeq(){fabT.forEach(clearTimeout);fabT=[];setFab(S.view==='home'?'large':'small');
   if(S.view==='home'){fabT.push(setTimeout(()=>{if(!$('#chat').classList.contains('on')&&S.view==='home')setFab('toast')},900));fabT.push(setTimeout(()=>{if($('#fab').dataset.s==='toast')setFab('small')},5600))}}
 $('#ph').addEventListener('scroll',e=>{const v=e.target;if(!v.classList||!v.classList.contains('view')||!FABV.includes(S.view))return;
   const t=v.scrollTop,f=$('#fab').dataset.s;fabT.forEach(clearTimeout);fabT=[];
-  if(t<=10)setFab('large');else if(t>fabLast+3)setFab('small');
+  if(t<=10)setFab(S.view==='home'?'large':'small');else if(t>fabLast+3)setFab('small');
   fabLast=t;fabT.push(setTimeout(()=>{if($('#fab').dataset.s==='small'&&fabLast>10)setFab('hidden')},2500))},true);
 
 /* ---------- sheets + chat ---------- */
