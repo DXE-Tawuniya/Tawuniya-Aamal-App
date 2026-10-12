@@ -787,7 +787,6 @@ function pvList(){const q=(S.vQ||'').trim().toLowerCase();return PVD.filter(p=>(
 function fillProv(){
   const L=pvList(),D=S.vT?PVS[S.vT]:null;
   LV('.pvch').innerHTML=[['','All','grid'],...Object.entries(PVS).map(([k,d])=>[k,d.t,d.i])].map(([v,t,i])=>`<button role="tab" class="${(S.vT||'')===v?'on':''}" aria-selected="${(S.vT||'')===v}" data-act="vtype" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
-  LV('.pvcov').innerHTML=D?`<div class="pvv"><span class="tg g">Covered</span><b>${D.t} is covered under your policy</b><ul>${D.cov.map(c=>`<li>${c}</li>`).join('')}</ul><p>${D.ex}</p></div>`:'';
   const pos=[[24,34],[52,62],[70,26],[40,74]];
   LV('.pvmp').innerHTML=`<img src="${PVI.map}" alt="Map of covered providers">${L.slice(0,4).map((p,i)=>`<span class="mp" style="left:${pos[i][0]}%;top:${pos[i][1]}%">${ic('star',10,1.4,'currentColor')}${p.r}</span>`).join('')}`;
   LV('.pvn').textContent=L.length+' provider'+(L.length===1?'':'s');
@@ -797,7 +796,7 @@ function renderProv(){
   S.lk='prov';S.vT='';S.vQ='';
   $('#v-prov').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Providers Network</h2></div>
   <div class="scroll"><div class="pmw"><label class="pms">${pmi('search',20)}<input id="vq" type="search" placeholder="Search by provider name or location" aria-label="Search providers"></label>
-  <div class="chips clch pvch" role="tablist"></div><div class="pvcov"></div><div class="pvm pvmp"></div>
+  <div class="chips clch pvch" role="tablist"></div><div class="pvm pvmp"></div>
   <div class="clh"><h3>Covered providers</h3><small class="pvn"></small></div><div class="stack pvl"></div></div></div><i class="hind"></i>`;
   fillProv();
 }
