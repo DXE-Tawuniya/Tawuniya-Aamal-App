@@ -262,17 +262,11 @@ button.pc{display:block;width:100%}
 
 
 /* statements (portal SOA flow) */
-.sfc{border:1px solid var(--ln);border-radius:16px;padding:16px;background:#fff}
-.sfc>small{display:block;font-size:13px;line-height:18px;color:var(--blk)}
-.sfc>h3{font-size:15px;line-height:22px;font-weight:600;color:var(--blk)}.sfc>h3.pn{font-size:20px;line-height:28px;color:var(--brand);margin-top:2px}
-.sfb{background:var(--sf);border-radius:12px;padding:12px;margin-top:12px}
-.sfb h4{font-size:13px;line-height:20px;font-weight:600;color:var(--blk);margin-bottom:8px}
-.sfm{background:#fff;border-radius:8px;display:grid;grid-template-columns:1fr 1fr;padding:10px 0}
-.sfm.one{grid-template-columns:1fr}
-.sfm>div{padding:0 12px;min-width:0;display:flex;flex-direction:column;justify-content:flex-end}.sfm>div+div{border-left:1px solid var(--ln)}
-.sfm small{display:block;font-size:11px;line-height:16px;color:var(--blk)}
-.sfm b{display:flex;align-items:center;font-size:17px;line-height:26px;font-weight:600;white-space:nowrap}
-.sfm b.r{color:var(--er)}.sfm b.g{color:var(--ok)}
+.bo.sfo{margin:0}
+.sfo .sfp{margin-bottom:12px}.sfo .sfp small{display:block;font-size:13px;line-height:18px;color:var(--blk)}.sfo .sfp h3{font-size:20px;line-height:28px;font-weight:600;color:var(--brand);margin-top:2px}
+.mets.m2{grid-template-columns:1fr 1fr}.met.w{grid-column:1/-1}
+.met b{display:flex;align-items:center}.met b.r{color:var(--er)}.met b.g{color:var(--ok)}
+.met svg{flex:none}
 .sth{display:flex;align-items:center;gap:8px;margin:22px 0 0}
 .sth h3{font-size:16px;line-height:24px;font-weight:600}
 .stb{font-size:12px;line-height:16px;padding:2px 10px;border-radius:100px;background:#eaf1ff;color:#2f6bff;font-weight:500}
@@ -963,9 +957,9 @@ function stRows(){const q=(ST.q||'').trim().toLowerCase(),inv=ST.tab==='inv';
  let r=(inv?SIR:SPR).filter(x=>(!q||(x.p+' '+(x.e||'')+' '+(x.trx||'')).toLowerCase().includes(q))&&(!ST.lob||x.l===ST.lob)&&(!inv||!ST.fs||x.s===ST.fs)&&(!ST.fy||String(x.y)===ST.fy)&&(ST.fm===''||String(x.m)===ST.fm));
  if(!inv&&ST.sort)r=r.slice().sort((a,b)=>ST.sort==='asc'?a.d-b.d:b.d-a.d);return r}
 function stFilters(){return !!(ST.fs&&ST.tab==='inv'||ST.fy||ST.fm!=='')}
-function stStats(pol){return `<div class="sfc">${pol?`<small>Financial Statement</small><h3 class="pn">Policy No. #${pol}</h3>`:'<h3>Financial Statement</h3>'}
-  <div class="sfb"><h4>Outstanding Statistics</h4><div class="sfm"><div>${STB('Total Due Installments','r')}749,676.00</b></div><div>${STB('Total Due Endorsements','r')}86,300.00</b></div></div></div>
-  ${pol?'':`<div class="sfb"><h4>Surplus Statistics</h4><div class="sfm one"><div>${STB('Total Surplus Amounts','g')}749,676.00</b></div></div></div>`}</div>`}
+function stStats(pol){const m=(i,l,v,c,w)=>`<div class="met${w?' w':''}">${ic(i,18,1.6)}<b class="${c}">${SAR}${v}</b><small>${l}</small></div>`;
+  return `<div class="bo sfo">${pol?`<div class="sfp"><small>Financial Statement</small><h3>Policy No. #${pol}</h3></div>`:'<div class="sh"><h3>Financial Statement</h3></div>'}
+  <div class="mets m2">${m('cal','Total Due Installments','749,676.00','r')}${m('claim','Total Due Endorsements','86,300.00','r')}${pol?'':m('card','Total Surplus Amounts','749,676.00','g',1)}</div></div>`}
 function fillStmt(){
   const inv=ST.tab==='inv',rows=stRows(),per=8,pages=Math.max(1,Math.ceil(rows.length/per));ST.pg=Math.min(Math.max(1,ST.pg),pages);
   const pg=rows.slice((ST.pg-1)*per,ST.pg*per),V=q=>$('#v-stmt '+q);
