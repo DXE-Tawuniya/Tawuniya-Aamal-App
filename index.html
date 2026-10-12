@@ -26,6 +26,7 @@ html,body{overscroll-behavior:none}@media (max-width:499px){body{background:#fff
 .view{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;display:none;background:#fff}
 .view::-webkit-scrollbar{display:none}
 .view.on{display:block}
+.stk{position:sticky;top:0;z-index:8;background:#fff}.stk.br{background:var(--brand);color:#fff}
 .view.flow.on{display:flex;flex-direction:column}
 .pad{padding-bottom:120px}
 .sb{display:none;justify-content:space-between;align-items:center;height:44px;padding:0 28px 0 34px;font-size:16px;font-weight:600;flex:none}
@@ -468,7 +469,7 @@ const polCard=(p,o={})=>{const pin=S.pinned.has(p.id);return `<${o.btn?'button d
 function toast(t,w){const e=$('#toast');e.classList.toggle('w',!!w);e.innerHTML=(w?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg>':ic('check',18,2.2))+`<span>${t}</span>`;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)}
 const MAXPIN=5;
 const soon=()=>toast('Coming soon in this prototype');
-const hdr=(title,right='')=>`${sb()}<div class="top"><h1>${title}</h1><div class="acts2">${right}</div></div>`;
+const hdr=(title,right='')=>`<div class="stk">${sb()}<div class="top"><h1>${title}</h1><div class="acts2">${right}</div></div></div>`;
 
 /* ---------- Home ---------- */
 function renderHome(){
@@ -492,8 +493,8 @@ function renderHome(){
     const rows=(S.actTab==='Recent'?R:N).map(r=>`<div class="card task"><div class="tx"><h4>${r[0]}</h4><p>${r[1]}</p></div><span class="tg ${r[3]}">${r[2]}</span></div>`).join('');
     return `<div class="sec sf"><div class="sh"><h3>Activity</h3></div><div class="tabs">${['Recent','Notifications'].map(t=>`<button class="${S.actTab===t?'on':''}" data-act="acttab" data-v="${t}">${t}</button>`).join('')}</div><div class="stack">${rows}</div></div>`}};
   const n=pins.length;
-  $('#v-home').innerHTML=`<div class="hero hero-h">${sb()}<div class="top" style="height:64px"><button class="pill" data-act="customize">${ic('sliders',18,1.6)}Customize</button><div class="acts2"><button class="ib" data-act="notif" aria-label="Notifications">${ic('bell',24,1.6)}</button><button class="ib" data-act="soon" aria-label="Search">${ic('search',24,1.6)}</button></div></div>
-   <h1 class="hi">Hayak, Abdullah!</h1><p class="hs">${showPins?(n?`Here ${n===1?'is your 1 pinned policy':'are your '+n+' pinned policies'}.`:'No pinned policies yet.'):'Here is your dashboard for today.'}</p>
+  $('#v-home').innerHTML=`<div class="stk br">${sb()}<div class="top" style="height:64px"><button class="pill" data-act="customize">${ic('sliders',18,1.6)}Customize</button><div class="acts2"><button class="ib" data-act="notif" aria-label="Notifications">${ic('bell',24,1.6)}</button><button class="ib" data-act="soon" aria-label="Search">${ic('search',24,1.6)}</button></div></div></div>
+   <div class="hero hero-h"><h1 class="hi">Hayak, Abdullah!</h1><p class="hs">${showPins?(n?`Here ${n===1?'is your 1 pinned policy':'are your '+n+' pinned policies'}.`:'No pinned policies yet.'):'Here is your dashboard for today.'}</p>
    ${showPins&&n?`<div class="carwrap"><div class="car" tabindex="0" aria-label="Pinned policies">${pins.map(p=>polCard(p,{btn:1})).join('')}</div></div>`:`<div style="height:20px"></div>`}</div>
    ${showPins&&!n?`<div class="sec lt" style="font-size:13px;color:var(--mut)">Tap the star on any policy in the Policies tab to pin it here.</div>`:''}
    ${S.sections.filter(s=>s.on&&s.id!=='pinned').map(s=>body[s.id]()).join('')}
@@ -640,8 +641,8 @@ function renderMore(){
    [['layout','Customize Dashboard','customize'],['bell','Notifications'],['globe','Language','chip']],
    [['shield','Privacy Policy'],['tag','Tawuniya Auctions'],['shieldu','Principals of Customer Protection'],['book','Online Insurance Activities Regulation']]];
   const flag=`<svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="9" fill="#fff"/><clipPath id="fc"><circle cx="9" cy="9" r="9"/></clipPath><g clip-path="url(#fc)"><path d="M0 2h18v2H0zM0 6h18v2H0zM0 10h18v2H0zM0 14h18v2H0z" fill="#d23b4a"/><rect width="9" height="9" fill="#3b4a9c"/></g></svg>`;
-  $('#v-more').innerHTML=`<div class="mh">${sb()}<div class="top"><h1 style="color:#fff">More</h1><div class="acts2"><button class="ib" data-act="soon" aria-label="Notifications">${ic('bell',24,1.6)}</button><button class="ib" data-act="soon" aria-label="Settings">${ic('sliders',24,1.6)}</button></div></div>
-  <button class="prof" data-act="details"><span class="av">M</span><div style="flex:1;min-width:0"><h3>Mohammed Abdullha</h3><small>ID Type: IQAMA &nbsp;|&nbsp; ID No. 456788987</small></div>${ic('chev',22,1.8)}</button></div>
+  $('#v-more').innerHTML=`<div class="stk br">${sb()}<div class="top"><h1 style="color:#fff">More</h1><div class="acts2"><button class="ib" data-act="soon" aria-label="Notifications">${ic('bell',24,1.6)}</button><button class="ib" data-act="soon" aria-label="Settings">${ic('sliders',24,1.6)}</button></div></div></div>
+  <div class="mh"><button class="prof" data-act="details"><span class="av">M</span><div style="flex:1;min-width:0"><h3>Mohammed Abdullha</h3><small>ID Type: IQAMA &nbsp;|&nbsp; ID No. 456788987</small></div>${ic('chev',22,1.8)}</button></div>
   ${G.map(g=>`<div class="grp">${g.map(r=>`<button class="row" data-act="${r[2]==='chip'?'soon':r[2]||'soon'}">${ic(r[0],22,1.6)}<span>${r[1]}</span>${r[2]==='chip'?`<em class="lang" style="font-style:normal">${flag}EN${ic('chevd',14,2)}</em>`:`<span class="ch" style="flex:none">${ic('chev',16)}</span>`}</button>`).join('')}</div>`).join('')}
   <p class="foot">Copyright © Tawuniya 2025, all rights reserved<br>Version v 4.0.1</p>`;
 }
