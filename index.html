@@ -269,7 +269,7 @@ button.pc{display:block;width:100%}
 .sel svg{position:absolute;right:12px;top:50%;margin-top:-8px;pointer-events:none;color:var(--ink)}
 .clh{display:flex;align-items:baseline;justify-content:space-between;margin:20px 0 4px}
 .clh h3{font-size:15px;line-height:22px;font-weight:600}.clh small{font-size:12px;color:var(--mut)}
-.clc{border:1px solid var(--ln);border-radius:12px;background:#fff;margin-top:8px;padding:14px 16px 4px}
+.clc{border:1px solid var(--ln);border-radius:12px;background:#fff;margin-top:16px;padding:14px 16px 4px}
 .clt{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
 .clt h4{font-size:14px;line-height:20px;font-weight:600;color:var(--blk)}
 .clt p{font-size:12px;line-height:16px;color:var(--ink);margin-top:2px}
@@ -696,16 +696,17 @@ function renderMembers(){
 const CLT=['Add Vehicle','Add Member','Remove Vehicle','Remove Vehicle','Policy Name','Policy Name','Policy Name','Policy Name'];
 const CLS=['Approved','Rejected','Under Process','Action required','Approved','Approved','Approved','Approved'];
 const CLY=['Mobility','Health','Mobility','Mobility','Health','Health','Mobility','Health'];
+const LOB=['Health','Mobility','General','Protection & Saving'];
 const CLR=[];(()=>{let x=7;const rnd=m=>{x=(x*9301+49297)%233280;return Math.floor(x/233280*m)};
  const dts=['10-MAY-23','14-MAY-23','21-MAY-23','02-JUN-23','18-JUN-23','05-JUL-23'];
- for(let i=0;i<160;i++){const k=i%8;const sub=dts[rnd(6)];CLR.push({p:String(123432+rnd(9000)),e:CLT[k],r:String(326454758+rnd(90000)),m:[12,293,28,17,400,400,50,388][k]+(i>=8?rnd(30):0),t:CLY[k],d:i<8?'10-MAY-23':sub,u:i<8?'10-MAY-23':dts[Math.min(5,dts.indexOf(sub)+rnd(2))],s:CLS[(k+(i>=8?rnd(4):0))%CLS.length]})}
+ for(let i=0;i<160;i++){const k=i%8;const sub=dts[rnd(6)];CLR.push({p:String(123432+rnd(9000)),e:CLT[k],r:String(326454758+rnd(90000)),m:[12,293,28,17,400,400,50,388][k]+(i>=8?rnd(30):0),t:i<8?CLY[k]:LOB[rnd(4)],d:i<8?'10-MAY-23':sub,u:i<8?'10-MAY-23':dts[Math.min(5,dts.indexOf(sub)+rnd(2))],s:CLS[(k+(i>=8?rnd(4):0))%CLS.length]})}
  CLR.forEach((r,i)=>{if(i<8)r.p='123432';if(i<8)r.r='326454758'})})();
 const clTag=s=>`<span class="tg ${s==='Approved'?'g':s==='Rejected'?'r':s==='Under Process'?'y':'o'}">${s}</span>`;
 function clFilter(){const q=(S.cQ||'').trim().toLowerCase();return CLR.filter(r=>(!q||(r.p+r.r).includes(q))&&(!S.cT||r.t===S.cT)&&(!S.cS||r.s===S.cS))}
 function fillClaims(){
   const rows=clFilter(),per=8,pages=Math.max(1,Math.ceil(rows.length/per));S.cPg=Math.min(Math.max(1,S.cPg||1),pages);
   const pg=rows.slice((S.cPg-1)*per,S.cPg*per);
-  $('#cch').innerHTML=[['','All','grid'],['Health','Health','Health'],['Mobility','Mobility','Mobility']].map(([v,t,i])=>`<button role="tab" class="${(S.cT||'')===v?'on':''}" aria-selected="${(S.cT||'')===v}" data-act="ctype" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
+  $('#cch').innerHTML=[['','All','grid'],['Health','Health','Health'],['Mobility','Mobility','Mobility'],['General','General','General'],['Protection & Saving','Protection & Saving','Protection']].map(([v,t,i])=>`<button role="tab" class="${(S.cT||'')===v?'on':''}" aria-selected="${(S.cT||'')===v}" data-act="ctype" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
   $('#cfb i').hidden=!S.cS;
   $('#cln').textContent=rows.length+' claims';
   $('#cll').innerHTML=pg.length?pg.map(r=>`<div class="clc"><div class="clt"><div><h4>Policy No. ${r.p}</h4><p>${r.e} · ${r.t}</p></div>${clTag(r.s)}</div>
