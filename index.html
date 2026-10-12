@@ -332,6 +332,7 @@ button.pc{display:block;width:100%}
   <section class="view flow" id="v-pdetail" aria-label="Policy Details"></section>
   <section class="view flow" id="v-claims" aria-label="Claims"></section>
   <section class="view flow" id="v-endors" aria-label="Endorsements"></section>
+  <section class="view flow" id="v-work" aria-label="Today's Work"></section>
   <section class="view flow" id="v-members" aria-label="Policy Members"></section>
   <section class="view flow" id="v-details" aria-label="Personal Details"></section>
 
@@ -472,7 +473,7 @@ function renderHome(){
   const pins=POL.filter(p=>S.pinned.has(p.id));
   const showPins=S.sections.find(s=>s.id==='pinned').on;
   const body={
-   work:()=>`<div class="sec sf"><div class="sh"><h3>Today's Work</h3><button class="link" data-act="soon">View All ${ic('arrow',16)}</button></div><div class="stack">
+   work:()=>`<div class="sec sf"><div class="sh"><h3>Today's Work</h3><button class="link" data-act="work">View All ${ic('arrow',16)}</button></div><div class="stack">
     <div class="card task"><span style="color:var(--er)">${ic('alert',22)}</span><div class="tx"><h4>Policy Renewal Due</h4><p>Renew SME Medical Shield #2430560603 immediately</p></div><span class="tg r">3 Days</span></div>
     <div class="card task"><span style="color:#d29a00">${ic('users',22)}</span><div class="tx"><h4>Pending Approvals</h4><p>Admins waiting for approval to add dependants</p></div><span class="tg y c">5</span></div>
     <div class="card task"><span style="color:var(--brand)">${ic('claim',22)}</span><div class="tx"><h4>Claims Need Review</h4><p>New claims submitted with outstanding invoices</p></div><span class="tg p c">3</span></div></div></div>`,
@@ -730,11 +731,22 @@ function renderClaims(k){
   <div class="clh"><h3>${L.h}</h3><small class="cln"></small></div><div class="cll"></div><div class="pmp clp"></div></div></div><i class="hind"></i>`;
   fillClaims();
 }
+const WORK=[['alert','var(--er)','Policy Renewal Due','Renew SME Medical Shield #2430560603 immediately','r','3 Days'],
+ ['users','#d29a00','Pending Approvals','Admins waiting for approval to add dependants','y c','5'],
+ ['claim','var(--brand)','Claims Need Review','New claims submitted with outstanding invoices','p c','3'],
+ ['alert','var(--er)','Payment Overdue','Invoice #INV-20431 is overdue and needs to be settled','r','5 Days'],
+ ['claim','var(--brand)','Endorsements Awaiting Action','Endorsement requests are missing supporting documents','p c','2'],
+ ['users','#d29a00','Member Data Incomplete','Some members are missing their national ID number','y c','12'],
+ ['alert','#d29a00','Policy Renewal Due','Renew Comprehensive Motor #2430563455 within two weeks','y','14 Days']];
+function renderWork(){
+  $('#v-work').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Today's Work</h2></div>
+  <div class="scroll"><div class="pmw"><div class="clh" style="margin-top:0"><h3>Tasks for today</h3><small>${WORK.length} tasks</small></div><div class="stack">${WORK.map(([i,c,t,d,g,n])=>`<button class="card task" data-act="soon" style="text-align:left;width:100%"><span style="color:${c}">${ic(i,22)}</span><div class="tx"><h4>${t}</h4><p style="white-space:normal">${d}</p></div><span class="tg ${g}">${n}</span></button>`).join('')}</div></div></div><i class="hind"></i>`;
+}
 function go(v,from){
   if(from)S.prev=from;
   if(v==='customize'){S.draft=S.sections.map(s=>({...s}));renderCust('customize','Customize Dashboard',S.draft,SEC)}
   if(v==='pcustomize'){S.draft=S.widgets.map(s=>({...s}));renderCust('pcustomize','Customize Overview widgets',S.draft,WID)}
-  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims'||v==='endors')renderClaims(v); if(v==='pdetail')renderPDetail();
+  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims'||v==='endors')renderClaims(v); if(v==='work')renderWork(); if(v==='pdetail')renderPDetail();
   S.view=v;$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));$('#v-'+v).scrollTop=0;
   $('#nav').classList.toggle('off',!NAVV.includes(v));$('#fab').classList.toggle('off',!FABV.includes(v));fabLast=0;fabSeq();
   $$('#nav button').forEach(b=>{const on=b.dataset.v===v;b.classList.toggle('on',on);b.innerHTML=NI[b.dataset.v](on)+NAVI.find(n=>n[0]===b.dataset.v)[1];on?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
@@ -793,6 +805,7 @@ document.addEventListener('click',e=>{
    case 'acttab':S.actTab=v;{const k=$('#v-home').scrollTop;renderHome();$('#v-home').scrollTop=k}break;
    case 'details':go('details','more');break;
    case 'backMore':go('more');break;
+   case 'work':go('work','home');break;
    case 'members':go('members','home');break;
    case 'backMem':go('home');break;
    case 'claims':go('claims','home');break;
