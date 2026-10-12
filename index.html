@@ -331,6 +331,7 @@ button.pc{display:block;width:100%}
   <section class="view flow" id="v-pcustomize" aria-label="Customize Overview widgets"></section>
   <section class="view flow" id="v-pdetail" aria-label="Policy Details"></section>
   <section class="view flow" id="v-claims" aria-label="Claims"></section>
+  <section class="view flow" id="v-endors" aria-label="Endorsements"></section>
   <section class="view flow" id="v-members" aria-label="Policy Members"></section>
   <section class="view flow" id="v-details" aria-label="Personal Details"></section>
 
@@ -475,7 +476,7 @@ function renderHome(){
     <div class="card task"><span style="color:#d29a00">${ic('users',22)}</span><div class="tx"><h4>Pending Approvals</h4><p>Admins waiting for approval to add dependants</p></div><span class="tg y c">5</span></div>
     <div class="card task"><span style="color:var(--brand)">${ic('claim',22)}</span><div class="tx"><h4>Claims Need Review</h4><p>New claims submitted with outstanding invoices</p></div><span class="tg p c">3</span></div></div></div>`,
    quick:()=>`<div class="sec lt qs"><div class="sh"><h3>Quick Actions</h3></div><div class="qa">
-    <button data-act="members">${QAI.qa_members}<span>Policy Members</span></button><button data-act="soon">${QAI.qa_endors}<span>Endorsements</span></button>
+    <button data-act="members">${QAI.qa_members}<span>Policy Members</span></button><button data-act="endors">${QAI.qa_endors}<span>Endorsements</span></button>
     <button data-act="claims">${QAI.qa_claims}<span>Claims</span></button><button data-act="soon">${QAI.qa_global}<span>Providers Network</span></button>
     <button data-act="soon" class="hug">${QAI.qa_cards}<span>Statement of Account</span></button></div></div>`,
    cont:()=>`<div class="sec sf"><div class="sh"><h3>Continue Working</h3><button class="link" data-act="soon">View All ${ic('arrow',16)}</button></div><div class="stack">
@@ -701,32 +702,38 @@ const CLR=[];(()=>{let x=7;const rnd=m=>{x=(x*9301+49297)%233280;return Math.flo
  const dts=['10-MAY-23','14-MAY-23','21-MAY-23','02-JUN-23','18-JUN-23','05-JUL-23'];
  for(let i=0;i<160;i++){const k=i%8;const sub=dts[rnd(6)];CLR.push({p:String(123432+rnd(9000)),e:CLT[k],r:String(326454758+rnd(90000)),m:[12,293,28,17,400,400,50,388][k]+(i>=8?rnd(30):0),t:i<8?CLY[k]:LOB[rnd(4)],d:i<8?'10-MAY-23':sub,u:i<8?'10-MAY-23':dts[Math.min(5,dts.indexOf(sub)+rnd(2))],s:CLS[(k+(i>=8?rnd(4):0))%CLS.length]})}
  CLR.forEach((r,i)=>{if(i<8)r.p='123432';if(i<8)r.r='326454758'})})();
+const ELR=[];(()=>{let x=11;const rnd=m=>{x=(x*9301+49297)%233280;return Math.floor(x/233280*m)};
+ const dts=['10-MAY-23','14-MAY-23','21-MAY-23','02-JUN-23','18-JUN-23','05-JUL-23'];
+ for(let i=0;i<45;i++){const k=i%8;const sub=dts[rnd(6)];ELR.push({p:i<8?'123432':String(123432+rnd(9000)),e:CLT[k],r:i<8?'326454758':String(326454758+rnd(90000)),m:[12,293,28,17,400,400,50,388][k]+(i>=8?rnd(30):0),t:i<8?CLY[k]:LOB[rnd(4)],d:i<8?'10-MAY-23':sub,u:i<8?'10-MAY-23':dts[Math.min(5,dts.indexOf(sub)+rnd(2))],s:i<8?CLS[k]:CLS[rnd(4)]})}})();
+const LST={claims:{t:'Claims',h:'List of all Claims',u:'claims',rows:()=>CLR},endors:{t:'Endorsements',h:'List of all Endorsements',u:'endorsements',rows:()=>ELR}};
+const LV=q=>$('#v-'+S.lk+' '+q);
 const clTag=s=>`<span class="tg ${s==='Approved'?'g':s==='Rejected'?'r':s==='Under Process'?'y':'o'}">${s}</span>`;
-function clFilter(){const q=(S.cQ||'').trim().toLowerCase();return CLR.filter(r=>(!q||(r.p+r.r).includes(q))&&(!S.cT||r.t===S.cT)&&(!S.cS||r.s===S.cS))}
+function clFilter(){const q=(S.cQ||'').trim().toLowerCase();return LST[S.lk].rows().filter(r=>(!q||(r.p+r.r).includes(q))&&(!S.cT||r.t===S.cT)&&(!S.cS||r.s===S.cS))}
 function fillClaims(){
   const rows=clFilter(),per=8,pages=Math.max(1,Math.ceil(rows.length/per));S.cPg=Math.min(Math.max(1,S.cPg||1),pages);
   const pg=rows.slice((S.cPg-1)*per,S.cPg*per);
-  $('#cch').innerHTML=[['','All','grid'],['Health','Health','Health'],['Mobility','Mobility','Mobility'],['General','General','General'],['Protection & Saving','Protection & Saving','Protection']].map(([v,t,i])=>`<button role="tab" class="${(S.cT||'')===v?'on':''}" aria-selected="${(S.cT||'')===v}" data-act="ctype" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
-  $('#cfb i').hidden=!S.cS;
-  $('#cln').textContent=rows.length+' claims';
-  $('#cll').innerHTML=pg.length?pg.map(r=>`<div class="clc"><div class="clt"><div><h4>Policy No. ${r.p}</h4><p>${r.e} · ${r.t}</p></div>${clTag(r.s)}</div>
+  LV('.cch').innerHTML=[['','All','grid'],['Health','Health','Health'],['Mobility','Mobility','Mobility'],['General','General','General'],['Protection & Saving','Protection & Saving','Protection']].map(([v,t,i])=>`<button role="tab" class="${(S.cT||'')===v?'on':''}" aria-selected="${(S.cT||'')===v}" data-act="ctype" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
+  LV('.nf i').hidden=!S.cS;
+  LV('.cln').textContent=rows.length+' '+LST[S.lk].u;
+  LV('.cll').innerHTML=pg.length?pg.map(r=>`<div class="clc"><div class="clt"><div><h4>Policy No. ${r.p}</h4><p>${r.e} · ${r.t}</p></div>${clTag(r.s)}</div>
    <div class="clg"><div><small>Request No.</small><b>${r.r}</b></div><div><small>Members / Vehicles</small><b>${r.m}</b></div><div><small>Date Submitted</small><b>${r.d}</b></div><div><small>Last Updated</small><b>${r.u}</b></div></div>
-   <div class="clf"><button data-act="soon">View Details${ic('chev',16)}</button></div></div>`).join(''):'<div class="pmem">No claims match your filters.</div>';
-  $('#clp').innerHTML=`<button data-act="cpg" data-v="-1" ${S.cPg<=1?'disabled':''}>${ic('back',20)}Prev</button><span class="cur">${S.cPg}</span><span>of ${pages}</span><button data-act="cpg" data-v="1" ${S.cPg>=pages?'disabled':''}>Next${ic('arrow',20)}</button>`;
+   <div class="clf"><button data-act="soon">View Details${ic('chev',16)}</button></div></div>`).join(''):'<div class="pmem">No '+LST[S.lk].u+' match your filters.</div>';
+  LV('.clp').innerHTML=`<button data-act="cpg" data-v="-1" ${S.cPg<=1?'disabled':''}>${ic('back',20)}Prev</button><span class="cur">${S.cPg}</span><span>of ${pages}</span><button data-act="cpg" data-v="1" ${S.cPg>=pages?'disabled':''}>Next${ic('arrow',20)}</button>`;
 }
-function renderClaims(){
+function renderClaims(k){
+  S.lk=k||'claims';const L=LST[S.lk];
   S.cQ='';S.cT='';S.cS='';S.cPg=1;
-  $('#v-claims').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Claims</h2><button class="nf" id="cfb" data-act="cfilter" aria-label="Filter by status">${ic('sliders',24,1.6)}<i hidden></i></button></div>
-  <div class="scroll"><div class="pmw"><label class="pms">${pmi('search',20)}<input id="cq" type="search" placeholder="Search by Policy No. or Request No." aria-label="Search claims"></label>
-  <div class="chips clch" id="cch" role="tablist"></div>
-  <div class="clh"><h3>List of all Claims</h3><small id="cln"></small></div><div id="cll"></div><div class="pmp" id="clp"></div></div></div><i class="hind"></i>`;
+  $('#v-'+S.lk).innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>${L.t}</h2><button class="nf" data-act="cfilter" aria-label="Filter by status">${ic('sliders',24,1.6)}<i hidden></i></button></div>
+  <div class="scroll"><div class="pmw"><label class="pms">${pmi('search',20)}<input class="lq" type="search" placeholder="Search by Policy No. or Request No." aria-label="Search ${L.u}"></label>
+  <div class="chips clch cch" role="tablist"></div>
+  <div class="clh"><h3>${L.h}</h3><small class="cln"></small></div><div class="cll"></div><div class="pmp clp"></div></div></div><i class="hind"></i>`;
   fillClaims();
 }
 function go(v,from){
   if(from)S.prev=from;
   if(v==='customize'){S.draft=S.sections.map(s=>({...s}));renderCust('customize','Customize Dashboard',S.draft,SEC)}
   if(v==='pcustomize'){S.draft=S.widgets.map(s=>({...s}));renderCust('pcustomize','Customize Overview widgets',S.draft,WID)}
-  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims')renderClaims(); if(v==='pdetail')renderPDetail();
+  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims'||v==='endors')renderClaims(v); if(v==='pdetail')renderPDetail();
   S.view=v;$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));$('#v-'+v).scrollTop=0;
   $('#nav').classList.toggle('off',!NAVV.includes(v));$('#fab').classList.toggle('off',!FABV.includes(v));fabLast=0;fabSeq();
   $$('#nav button').forEach(b=>{const on=b.dataset.v===v;b.classList.toggle('on',on);b.innerHTML=NI[b.dataset.v](on)+NAVI.find(n=>n[0]===b.dataset.v)[1];on?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
@@ -788,13 +795,14 @@ document.addEventListener('click',e=>{
    case 'members':go('members','home');break;
    case 'backMem':go('home');break;
    case 'claims':go('claims','home');break;
+   case 'endors':go('endors','home');break;
    case 'backCl':go('home');break;
    case 'ctype':S.cT=v;S.cPg=1;fillClaims();break;
    case 'cfilter':S.cS2=S.cS||'';cfSheet();break;
    case 'cfpick':S.cS2=v;cfSheet();break;
    case 'cfapply':S.cS=S.cS2||'';S.cPg=1;shut();fillClaims();break;
    case 'cfreset':S.cS2='';cfSheet();break;
-   case 'cpg':S.cPg+= +v;fillClaims();$('#v-claims .scroll').scrollTop=0;break;
+   case 'cpg':S.cPg+= +v;fillClaims();$('#v-'+S.lk+' .scroll').scrollTop=0;break;
    case 'mtog':{const k=+v;S.mOpen=S.mOpen===k?-1:k;fillMembers();break}
    case 'mpg':S.mPg=Math.min(11,Math.max(1,S.mPg+ +v));fillMembers();break;
    case 'logout':sheet(`<h3>Log out?</h3><p>You will return to the sign-in screen. This is a demo, so nothing is actually signed out.</p><button class="bt dg" data-act="logoutOk">Log out</button><button class="bt sc" data-act="shut">Cancel</button>`);break;
@@ -802,7 +810,7 @@ document.addEventListener('click',e=>{
   }
 });
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-act=pin]')){e.preventDefault();e.target.click()}});
-document.addEventListener('input',e=>{if(e.target.id==='cq'){S.cQ=e.target.value;S.cPg=1;fillClaims()}if(e.target.id==='mq'){S.mQ=e.target.value;fillMembers()}if(e.target.id==='pq'){S.pQ=e.target.value;fillPolicies()}if(e.target.id==='rq'){S.rQ=e.target.value;fillRequests()}});
+document.addEventListener('input',e=>{if(e.target.classList.contains('lq')){S.cQ=e.target.value;S.cPg=1;fillClaims()}if(e.target.id==='mq'){S.mQ=e.target.value;fillMembers()}if(e.target.id==='pq'){S.pQ=e.target.value;fillPolicies()}if(e.target.id==='rq'){S.rQ=e.target.value;fillRequests()}});
 
 /* ---------- boot ---------- */
 go('home');
