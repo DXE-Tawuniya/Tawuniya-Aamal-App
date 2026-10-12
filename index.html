@@ -473,7 +473,7 @@ const S={view:'home',prev:'home',pinned:new Set([1,2,3]),
  widgets:Object.keys(WID).map(id=>({id,on:true})),
  pTab:'All',pQ:'',pSearch:false,perfTab:'All',actTab:'Recent',rTab:'All',rQ:'',rSearch:false,
  pol:POL[0],dTab:0,hTab:0,open:null};
-const NAVV=['home','policies','requests','performance','more'], FABV=['home','policies','performance','more'];
+const NAVV=['home','policies','requests','performance','more'], FABV=['home','policies','requests','performance','more'];
 
 /* ---------- shared pieces ---------- */
 const sb=()=>`<div class="sb"><span>9:41</span><span><svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.500" width="3" height="9.500" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg width="26" height="12" viewBox="0 0 26 12" fill="none" stroke="currentColor"><rect x=".5" y=".5" width="22" height="11" rx="3.500" opacity=".5"/><rect x="2" y="2" width="19" height="8" rx="2" fill="currentColor" stroke="none"/><path d="M24 4v4" stroke-linecap="round"/></svg></span></div>`;
@@ -823,11 +823,12 @@ $('#fab').innerHTML='<span class="disc"></span><span class="ico">'+LOGO+'</span>
 /* AI icon states (Figma "AI Agent - FAB"): large -> info toast -> small -> hidden */
 let fabT=[],fabLast=0;
 function setFab(st){const f=$('#fab');f.dataset.s=st;$('#bub').classList.toggle('on',st==='toast'||false)}
-function fabSeq(){fabT.forEach(clearTimeout);fabT=[];setFab(S.view==='home'?'large':'small');
+function fabSeq(){fabT.forEach(clearTimeout);fabT=[];setFab(S.view==='home'?'large':'hidden');
   if(S.view==='home'){fabT.push(setTimeout(()=>{if(!$('#chat').classList.contains('on')&&S.view==='home')setFab('toast')},900));fabT.push(setTimeout(()=>{if($('#fab').dataset.s==='toast')setFab('small')},5600))}}
 $('#ph').addEventListener('scroll',e=>{const v=e.target;if(!v.classList||!v.classList.contains('view')||!FABV.includes(S.view))return;
   const t=v.scrollTop,f=$('#fab').dataset.s;fabT.forEach(clearTimeout);fabT=[];
-  if(t<=10)setFab(S.view==='home'?'large':'small');else if(t>fabLast+3)setFab('small');
+  if(S.view!=='home'){fabLast=t;return}
+  if(t<=10)setFab('large');else if(t>fabLast+3)setFab('small');
   fabLast=t;fabT.push(setTimeout(()=>{if($('#fab').dataset.s==='small'&&fabLast>10)setFab('hidden')},2500))},true);
 
 /* ---------- sheets + chat ---------- */
@@ -848,7 +849,7 @@ document.addEventListener('click',e=>{
    case 'nav':go(v);break;
    case 'go-perf':go('performance');break;
    case 'soon':soon();break;
-   case 'chat':if(e.target.closest('#fab')&&$('#fab').dataset.s==='hidden'){setFab('large');fabT.forEach(clearTimeout);break}openChat();break;
+   case 'chat':if(e.target.closest('#fab')&&$('#fab').dataset.s==='hidden'){setFab('large');fabT.forEach(clearTimeout);if(S.view!=='home')fabT.push(setTimeout(()=>setFab('hidden'),3000));break}openChat();break;
    case 'closeChat':closeChat();break;
    case 'shut':shut();break;
    case 'customize':go('customize',S.view);break;
