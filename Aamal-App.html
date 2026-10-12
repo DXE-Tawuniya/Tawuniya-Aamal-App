@@ -259,7 +259,11 @@ button.pc{display:block;width:100%}
 .pmem{padding:32px 16px;text-align:center;color:var(--mut);font-size:13px}
 
 /* claims list */
-.cll{display:flex;gap:8px;margin-top:12px}
+.clch{margin:12px -16px 0}.clch.chips{padding-top:0}
+.nh .nf{margin-left:auto;position:relative}.nh .nf i{position:absolute;top:5px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--brand);border:1.5px solid #fff}
+.fo{display:flex;align-items:center;justify-content:space-between;width:100%;height:48px;padding:0 14px;border:1px solid var(--ln);border-radius:12px;font-size:14px;color:var(--ink);background:#fff}
+.fo.on{border-color:var(--brand);background:#f5f1ff;color:var(--brand);font-weight:500}
+.fr{display:flex;gap:8px}.fr .bt{flex:1}
 .sel{position:relative;flex:1;min-width:0;height:48px;border:1px solid var(--ln);border-radius:12px;background:#fff;color:var(--ink)}
 .sel select{appearance:none;-webkit-appearance:none;width:100%;height:100%;border:0;background:none;padding:0 36px 0 14px;font:inherit;font-size:13px;color:var(--ink);outline:0;border-radius:12px}
 .sel svg{position:absolute;right:12px;top:50%;margin-top:-8px;pointer-events:none;color:var(--ink)}
@@ -701,6 +705,8 @@ function clFilter(){const q=(S.cQ||'').trim().toLowerCase();return CLR.filter(r=
 function fillClaims(){
   const rows=clFilter(),per=8,pages=Math.max(1,Math.ceil(rows.length/per));S.cPg=Math.min(Math.max(1,S.cPg||1),pages);
   const pg=rows.slice((S.cPg-1)*per,S.cPg*per);
+  $('#cch').innerHTML=[['','All','grid'],['Health','Health','Health'],['Mobility','Mobility','Mobility']].map(([v,t,i])=>`<button role="tab" class="${(S.cT||'')===v?'on':''}" aria-selected="${(S.cT||'')===v}" data-act="ctype" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
+  $('#cfb i').hidden=!S.cS;
   $('#cln').textContent=rows.length+' claims';
   $('#cll').innerHTML=pg.length?pg.map(r=>`<div class="clc"><div class="clt"><div><h4>Policy No. ${r.p}</h4><p>${r.e} · ${r.t}</p></div>${clTag(r.s)}</div>
    <div class="clg"><div><small>Request No.</small><b>${r.r}</b></div><div><small>Members / Vehicles</small><b>${r.m}</b></div><div><small>Date Submitted</small><b>${r.d}</b></div><div><small>Last Updated</small><b>${r.u}</b></div></div>
@@ -709,10 +715,9 @@ function fillClaims(){
 }
 function renderClaims(){
   S.cQ='';S.cT='';S.cS='';S.cPg=1;
-  const sel=(id,all,opts)=>`<label class="sel"><select id="${id}" aria-label="${all}"><option value="">${all}</option>${opts.map(o=>`<option>${o}</option>`).join('')}</select>${ic('chevd',16)}</label>`;
-  $('#v-claims').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Claims</h2></div>
+  $('#v-claims').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Claims</h2><button class="nf" id="cfb" data-act="cfilter" aria-label="Filter by status">${ic('sliders',24,1.6)}<i hidden></i></button></div>
   <div class="scroll"><div class="pmw"><label class="pms">${pmi('search',20)}<input id="cq" type="search" placeholder="Search by Policy No. or Request No." aria-label="Search claims"></label>
-  <div class="cll">${sel('ct','All Type',['Health','Mobility'])}${sel('cs','All Status',['Approved','Rejected','Under Process','Action required'])}</div>
+  <div class="chips clch" id="cch" role="tablist"></div>
   <div class="clh"><h3>List of all Claims</h3><small id="cln"></small></div><div id="cll"></div><div class="pmp" id="clp"></div></div></div><i class="hind"></i>`;
   fillClaims();
 }
@@ -740,11 +745,12 @@ $('#ph').addEventListener('scroll',e=>{const v=e.target;if(!v.classList||!v.clas
 
 /* ---------- sheets + chat ---------- */
 function sheet(h){$('#sheet').innerHTML=h;$('#dim').classList.add('on');$('#sheet').classList.add('on')}
+function cfSheet(){const o=['Approved','Rejected','Under Process','Action required'];
+ sheet(`<h3>Filter by status</h3>${['',...o].map(x=>`<button class="fo ${(S.cS2||'')===x?'on':''}" data-act="cfpick" data-v="${x}"><span>${x||'All Status'}</span>${(S.cS2||'')===x?ic('check',20,2):''}</button>`).join('')}<div class="fr"><button class="bt sc" data-act="cfreset">Reset</button><button class="bt pr" data-act="cfapply">Apply</button></div>`)}
 function shut(){$('#dim').classList.remove('on');$('#sheet').classList.remove('on')}
 function openChat(){fabT.forEach(clearTimeout);setFab('large');window.__SB=matchMedia('(min-width:500px)').matches;$('#cf').srcdoc=AIDOC;$('#chat').classList.add('on');$('#bub').classList.remove('on')}
 function closeChat(){$('#chat').classList.remove('on');if(S.view!=='home')go('home');setTimeout(()=>{if(!$('#chat').classList.contains('on'))$('#cf').srcdoc=''},400)}
 let AICH=null;window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d.aamal==='close')closeChat();if(d.aamal==='chats')AICH=d.data});$('#cf').addEventListener('load',()=>{if(AICH&&$('#cf').contentWindow)try{$('#cf').contentWindow.postMessage({aamal:'chats-init',data:AICH},'*')}catch(e){}});
-document.addEventListener('change',e=>{if(e.target.id==='ct'){S.cT=e.target.value;S.cPg=1;fillClaims()}if(e.target.id==='cs'){S.cS=e.target.value;S.cPg=1;fillClaims()}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeChat();shut()}});
 
 /* ---------- events ---------- */
@@ -782,6 +788,11 @@ document.addEventListener('click',e=>{
    case 'backMem':go('home');break;
    case 'claims':go('claims','home');break;
    case 'backCl':go('home');break;
+   case 'ctype':S.cT=v;S.cPg=1;fillClaims();break;
+   case 'cfilter':S.cS2=S.cS||'';cfSheet();break;
+   case 'cfpick':S.cS2=v;cfSheet();break;
+   case 'cfapply':S.cS=S.cS2||'';S.cPg=1;shut();fillClaims();break;
+   case 'cfreset':S.cS2='';cfSheet();break;
    case 'cpg':S.cPg+= +v;fillClaims();$('#v-claims .scroll').scrollTop=0;break;
    case 'mtog':{const k=+v;S.mOpen=S.mOpen===k?-1:k;fillMembers();break}
    case 'mpg':S.mPg=Math.min(11,Math.max(1,S.mPg+ +v));fillMembers();break;
