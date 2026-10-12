@@ -391,6 +391,7 @@ Protection:'M12 20c0-6 0-9-6-11 0 6 2 10 6 11zM12 20c0-5 1-8 6-10-.5 5-2.500 9-6
 grid:'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',
 clock:'M20 12a8 8 0 1 1-2.5-5.8M20 4v4h-4M12 8v4l3 2',
 okc:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM8.5 12.500l2.500 2.500 4.500-5',
+mic:'M12 2.5a3.2 3.2 0 0 0-3.2 3.2v5.6a3.2 3.2 0 0 0 6.4 0V5.7A3.2 3.2 0 0 0 12 2.5zM5.5 10.8a6.5 6.5 0 0 0 13 0M12 17.5v4M9 21.5h6',
 xc:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM9 9l6 6M15 9l-6 6',
 users:'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20a6 6 0 0 1 12 0M16 5.500a3 3 0 0 1 0 5.500M18 14.500a5 5 0 0 1 3 5.500',
 dl:'M12 4v11M7 11l5 5 5-5M5 20h14',
@@ -540,8 +541,9 @@ document.addEventListener('pointerup',endDrag);document.addEventListener('pointe
 /* ---------- Policies ---------- */
 const PTABS=[['All','grid'],['Pinned','star'],['Health','Health'],['Mobility','Mobility'],['General','General'],['Protection & Saving','Protection']];
 function renderPolicies(){
-  $('#v-policies').innerHTML=`${hdr('Policies',`<button class="ib" data-act="soon" aria-label="Filter">${ic('sliders',24,1.6)}</button><button class="ib" data-act="psearch" aria-label="Search policies">${ic('search',24,1.6)}</button>`)}
-   ${S.pSearch?`<label class="search">${ic('search',18)}<input id="pq" type="search" placeholder="Search by policy number" value="${S.pQ}" autocomplete="off"></label>`:''}
+  const open=S.pSearch;
+  $('#v-policies').innerHTML=`${hdr('Policies',`<button class="ib" data-act="soon" aria-label="Filter">${ic('sliders',24,1.6)}</button><button class="ib" data-act="psearch" aria-label="${open?'Close search':'Search policies'}">${ic(open?'xc':'search',24,1.6)}</button>`)}
+   ${open?`<div style="padding:2px 16px 6px"><label class="pms" style="gap:6px;padding:0 10px 0 12px">${ic('search',20,1.6)}<input id="pq" style="letter-spacing:-.2px" type="search" placeholder="Search policies, members, claims..." aria-label="Search policies" value="${S.pQ}" autocomplete="off"><button type="button" class="ib" data-act="soon" aria-label="Voice search" style="width:24px;height:24px;color:#6b7283">${ic('mic',20,1.5)}</button></label></div>`:''}
    <div class="chips" role="tablist">${PTABS.map(([t,i])=>`<button role="tab" class="${S.pTab===t?'on':''}" aria-selected="${S.pTab===t}" data-act="ptab" data-v="${t}">${ic(i,18,1.6,t==='Pinned'&&0?'currentColor':'none')}${t}</button>`).join('')}</div><div class="list" id="plist"></div>`;
   fillPolicies();if(S.pSearch&&!renderPolicies.keep)$('#pq')?.focus();
 }
