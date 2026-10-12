@@ -333,6 +333,7 @@ button.pc{display:block;width:100%}
   <section class="view flow" id="v-claims" aria-label="Claims"></section>
   <section class="view flow" id="v-endors" aria-label="Endorsements"></section>
   <section class="view flow" id="v-work" aria-label="Today's Work"></section>
+  <section class="view flow" id="v-cont" aria-label="Continue Working"></section>
   <section class="view flow" id="v-members" aria-label="Policy Members"></section>
   <section class="view flow" id="v-details" aria-label="Personal Details"></section>
 
@@ -481,7 +482,7 @@ function renderHome(){
     <button data-act="members">${QAI.qa_members}<span>Policy Members</span></button><button data-act="endors">${QAI.qa_endors}<span>Endorsements</span></button>
     <button data-act="claims">${QAI.qa_claims}<span>Claims</span></button><button data-act="soon">${QAI.qa_global}<span>Providers Network</span></button>
     <button data-act="soon" class="hug">${QAI.qa_cards}<span>Statement of Account</span></button></div></div>`,
-   cont:()=>`<div class="sec sf"><div class="sh"><h3>Continue Working</h3><button class="link" data-act="soon">View All ${ic('arrow',16)}</button></div><div class="stack">
+   cont:()=>`<div class="sec sf"><div class="sh"><h3>Continue Working</h3><button class="link" data-act="cont">View All ${ic('arrow',16)}</button></div><div class="stack">
     ${[1,2].map(()=>`<button class="card res" data-act="soon"><div style="flex:1"><h4>Draft Endorsement - Al Rajhi Trading</h4><div class="bar"><i style="width:60%"></i></div><small>60% complete</small></div>${ic('chev',18)}</button>`).join('')}
     <button class="card res" data-act="soon"><div><h4>Policy #2430 - Member Review</h4><small>Last edited 2h ago</small></div>${ic('chev',18)}</button></div></div>`,
    over:()=>`<div class="bo" style="margin:16px 16px 0;border-radius:20px"><div class="sh"><h3>Business Overview</h3><button class="link" data-act="go-perf">View All ${ic('arrow',16)}</button></div>${mets(1)}</div>`,
@@ -742,11 +743,16 @@ function renderWork(){
   $('#v-work').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Today's Work</h2></div>
   <div class="scroll"><div class="pmw"><div class="clh" style="margin-top:0"><h3>Tasks for today</h3><small>${WORK.length} tasks</small></div><div class="stack">${WORK.map(([i,c,t,d,g,n])=>`<button class="card task" data-act="soon" style="text-align:left;width:100%"><span style="color:${c}">${ic(i,22)}</span><div class="tx"><h4>${t}</h4><p style="white-space:normal">${d}</p></div><span class="tg ${g}">${n}</span></button>`).join('')}</div></div></div><i class="hind"></i>`;
 }
+const CONT=[['Draft Endorsement - Al Rajhi Trading',60],['Draft Endorsement - Saudi Build Co.',55],['Add Members - Najd Logistics',35],['Claim Submission - Gulf Medical Center',80],['Remove Vehicle - Riyadh Fleet Services',45],['Policy Renewal - Eastern Foods Co.',20],['Draft Endorsement - Alfa Contracting',90]];
+function renderCont(){
+  $('#v-cont').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Continue Working</h2></div>
+  <div class="scroll"><div class="pmw"><div class="clh" style="margin-top:0"><h3>Recent items</h3><small>${CONT.length} items</small></div><div class="stack">${CONT.map(([t,n])=>`<button class="card res" data-act="soon"><div style="flex:1"><h4>${t}</h4><div class="bar"><i style="width:${n}%"></i></div><small>${n}% complete</small></div>${ic('chev',18)}</button>`).join('')}</div></div></div><i class="hind"></i>`;
+}
 function go(v,from){
   if(from)S.prev=from;
   if(v==='customize'){S.draft=S.sections.map(s=>({...s}));renderCust('customize','Customize Dashboard',S.draft,SEC)}
   if(v==='pcustomize'){S.draft=S.widgets.map(s=>({...s}));renderCust('pcustomize','Customize Overview widgets',S.draft,WID)}
-  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims'||v==='endors')renderClaims(v); if(v==='work')renderWork(); if(v==='pdetail')renderPDetail();
+  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims'||v==='endors')renderClaims(v); if(v==='work')renderWork(); if(v==='cont')renderCont(); if(v==='pdetail')renderPDetail();
   S.view=v;$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));$('#v-'+v).scrollTop=0;
   $('#nav').classList.toggle('off',!NAVV.includes(v));$('#fab').classList.toggle('off',!FABV.includes(v));fabLast=0;fabSeq();
   $$('#nav button').forEach(b=>{const on=b.dataset.v===v;b.classList.toggle('on',on);b.innerHTML=NI[b.dataset.v](on)+NAVI.find(n=>n[0]===b.dataset.v)[1];on?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
@@ -806,6 +812,7 @@ document.addEventListener('click',e=>{
    case 'details':go('details','more');break;
    case 'backMore':go('more');break;
    case 'work':go('work','home');break;
+   case 'cont':go('cont','home');break;
    case 'members':go('members','home');break;
    case 'backMem':go('home');break;
    case 'claims':go('claims','home');break;
