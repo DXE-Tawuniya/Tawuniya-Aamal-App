@@ -636,12 +636,19 @@ const NI={
  more:a=>a?`<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="16.4667" cy="8.4667" r="2.4667" fill="currentColor"/><circle cx="8.4667" cy="8.4667" r="2.4667" fill="currentColor"/><circle cx="16.4667" cy="16.4667" r="2.4667" fill="currentColor"/><circle cx="8.4667" cy="16.4667" r="2.4667" fill="currentColor"/></svg>`:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.675 10.35C14.2 10.35 13 9.15 13 7.675C13 6.2 14.2 5 15.675 5C17.15 5 18.35 6.2 18.35 7.675C18.35 9.15 17.15 10.35 15.675 10.35ZM15.675 6.24167C14.8917 6.24167 14.25 6.88333 14.25 7.66667C14.25 8.45 14.8917 9.09167 15.675 9.09167C16.4583 9.09167 17.1 8.45 17.1 7.66667C17.1 6.88333 16.4583 6.24167 15.675 6.24167Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M7.67501 10.35C6.20001 10.35 5 9.15 5 7.675C5 6.2 6.20001 5 7.67501 5C9.15001 5 10.35 6.2 10.35 7.675C10.35 9.15 9.15001 10.35 7.67501 10.35ZM7.67501 6.24167C6.89167 6.24167 6.25 6.88333 6.25 7.66667C6.25 8.45 6.89167 9.09167 7.67501 9.09167C8.45834 9.09167 9.1 8.45 9.1 7.66667C9.1 6.88333 8.46667 6.24167 7.67501 6.24167Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M15.675 18.7C14.2 18.7 13 17.5 13 16.025C13 14.55 14.2 13.35 15.675 13.35C17.15 13.35 18.35 14.55 18.35 16.025C18.35 17.5 17.15 18.7 15.675 18.7ZM15.675 14.5917C14.8917 14.5917 14.25 15.2333 14.25 16.0167C14.25 16.8 14.8917 17.4417 15.675 17.4417C16.4583 17.4417 17.1 16.8 17.1 16.0167C17.1 15.2333 16.4583 14.5917 15.675 14.5917Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M7.67501 18.7C6.20001 18.7 5 17.5 5 16.025C5 14.55 6.20001 13.35 7.67501 13.35C9.15001 13.35 10.35 14.55 10.35 16.025C10.35 17.5 9.15001 18.7 7.67501 18.7ZM7.67501 14.5917C6.89167 14.5917 6.25 15.2333 6.25 16.0167C6.25 16.8 6.89167 17.4417 7.67501 17.4417C8.45834 17.4417 9.1 16.8 9.1 16.0167C9.1 15.2333 8.46667 14.5917 7.67501 14.5917Z" fill="currentColor"/></svg>`};
 const NAVI=[['home','Home'],['policies','Policies'],['requests','Requests'],['performance','Performance'],['more','More']];
 
-const MEM=[{n:'Ali Ahmed Ayeb Alghamdi',c:'0010709899001',i:'0010709899001',g:'m'},{n:'Ali Ahmed Ayeb Alghamdi',c:'0010709899001',i:'0010709899001',g:'m'},{n:'Ali Ahmed Ayeb Alghamdi',c:'0010709899001',i:'0010709899001',g:'m'}];
+const MEM=[
+ {n:'Ali Ahmed Ayeb Alghamdi',c:'0010709899001',i:'1088453321',g:'m',b:'12 Dec 1971',e:'10 Jun 2026',u:'70031289742',r:'Riyadh',k:1},
+ {n:'Fahad Saleh Mohammed Alotaibi',c:'0010709899014',i:'1097720458',g:'m',b:'03 Mar 1985',e:'01 Jan 2026',u:'70031289742',r:'Jeddah',k:2},
+ {n:'Noura Khalid Abdulaziz Alshehri',c:'0010709899027',i:'1102236794',g:'f',b:'21 Aug 1990',e:'15 Feb 2026',u:'70031289742',r:'Dammam',k:1},
+ {n:'Omar Yousef Ibrahim Alharbi',c:'0010709899033',i:'1075519086',g:'m',b:'09 Nov 1978',e:'10 Jun 2026',u:'70031289742',r:'Riyadh',k:3},
+ {n:'Reem Abdullah Saad Aldossari',c:'0010709899048',i:'1119384072',g:'f',b:'27 Jun 1993',e:'01 Apr 2026',u:'70031289742',r:'Khobar',k:1},
+ {n:'Mansour Hamad Nasser Alqahtani',c:'0010709899052',i:'1064807733',g:'m',b:'14 Jan 1969',e:'20 Mar 2026',u:'70031289742',r:'Abha',k:2},
+ {n:'Laila Hassan Mahmoud Alzahrani',c:'0010709899066',i:'1128841905',g:'f',b:'02 May 1996',e:'05 Jul 2026',u:'70031289742',r:'Madinah',k:1}];
 const DEP=[['Salma Abdulla Ali Alqahtani','Wife','f'],['Mohamed Ali Ahmed Ayeb','Son','m'],['Abdulla Ali Ahmed Ayeb','Son','m'],['Sara Ali Ahmed Ayeb','Daughter','f']];
 const pmTags=()=>`<div class="pmt"><span class="tg g">CHI: Approved</span><span class="tg n">+3</span></div>`;
 const pmGen=g=>pmi(g==='f'?'woman':'man',20);
-function pmDetail(){
-  const F2=[['cal','Birth Date','12 Dec 1971'],['building','Effective Date','10 Jun 2026'],['building','Company Unified Number','70031289742'],['pinrisk','Risk Information','Riyadh'],['money3','Number of Risks','1']];
+function pmDetail(m){
+  const F2=[['cal','Birth Date',m.b],['building','Effective Date',m.e],['building','Company Unified Number',m.u],['pinrisk','Risk Information',m.r],['money3','Number of Risks',String(m.k)]];
   F2[0][0]='calendar';F2[1][0]='calendar';
   const A=[['useredit','Edit Member'],['crown','Change Class'],['moneys','Change Risk'],['card','Change ID'],['moneychange','Reimbursement'],['doctext','Request Coverage Letter']];
   return `<div class="pmu"><div class="pmf">${F2.map(f=>`<div>${pmi(f[0],16)}<span><small>${f[1]}</small><b>${f[2]}</b></span></div>`).join('')}</div>
@@ -653,7 +660,7 @@ function pmDetail(){
 function fillMembers(){
   const q=(S.mQ||'').trim().toLowerCase();
   const rows=MEM.map((m,k)=>[m,k]).filter(([m])=>!q||(m.n+m.c+m.i).toLowerCase().includes(q));
-  $('#pml').innerHTML=rows.length?rows.map(([m,k])=>{const o=S.mOpen===k;return `<div class="pmc"><div class="pmr">${pmGen(m.g)}<div class="pmb"><h4>${m.n}</h4><div class="pmd"><span>Card Code:<b>${m.c}</b></span><span>ID:<b>${m.i}</b></span></div>${pmTags()}</div><button class="pmx" data-act="mtog" data-v="${k}" aria-expanded="${o}" aria-label="${o?'Collapse':'Expand'} member">${pmi('arrowup',16)}</button></div>${o?pmDetail():''}</div>`}).join(''):'<div class="pmem">No members match your search.</div>';
+  $('#pml').innerHTML=rows.length?rows.map(([m,k])=>{const o=S.mOpen===k;return `<div class="pmc"><div class="pmr">${pmGen(m.g)}<div class="pmb"><h4>${m.n}</h4><div class="pmd"><span>Card Code:<b>${m.c}</b></span><span>ID:<b>${m.i}</b></span></div>${pmTags()}</div><button class="pmx" data-act="mtog" data-v="${k}" aria-expanded="${o}" aria-label="${o?'Collapse':'Expand'} member">${pmi('arrowup',16)}</button></div>${o?pmDetail(m):''}</div>`}).join(''):'<div class="pmem">No members match your search.</div>';
   $('#pmp').innerHTML=`<button data-act="mpg" data-v="-1" ${S.mPg<=1?'disabled':''}>${ic('back',16)}Prev</button><span class="cur">${S.mPg}</span><span>of 11</span><button data-act="mpg" data-v="1" ${S.mPg>=11?'disabled':''}>Next${ic('arrow',16)}</button>`;
 }
 function renderMembers(){
