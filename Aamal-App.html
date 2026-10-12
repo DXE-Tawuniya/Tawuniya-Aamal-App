@@ -968,8 +968,6 @@ function fillStmt(){
   V('.sch').innerHTML=[['','All','grid'],['Health','Health','Health'],['Mobility','Mobility','Mobility'],['General','General','General'],['Protection & Saving','Protection & Saving','Protection']].map(([v,t,i])=>`<button role="tab" class="${ST.lob===v?'on':''}" aria-selected="${ST.lob===v}" data-act="slob" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
   V('.stb').textContent=(inv?SIR:SPR).length;
   V('.scn').textContent=rows.length+(inv?' invoices':' policies');
-  V('.sso').hidden=inv;
-  V('.sso').innerHTML=`Current Due ${ic('sort',16,1.6)}`;
   V('.scl').innerHTML=pg.length?pg.map(r=>inv?
    `<div class="clc"><div class="clt"><div><h4>${r.due}</h4><p>Due Date</p></div>${invTag(r.s)}</div>
     <div class="clg"><div><small>TRX Number</small><b>${r.trx}</b></div><div><small>Policy No.</small><b>${r.p}</b></div><div><small>Type</small><b>${r.t}</b></div><div><small>Line of Business</small><b>${r.l}</b></div><div><small>Amount (SAR)</small><b>${r.a.toLocaleString('en-US')}</b></div></div>
@@ -986,7 +984,7 @@ function renderStmt(){
   <div style="margin-top:16px">${stStats()}</div>
   <div class="sth"><h3>Statement of Account</h3><span class="stb"></span></div>
   <div class="mini stc" role="tablist"></div>
-  <div class="sbar"><small class="scn"></small><div class="sac"><button class="so sso" data-act="ssort"></button><button data-act="sdl" data-v="Report">${ic('dl',18,1.6)}Download Report</button></div></div>
+  <div class="sbar"><small class="scn"></small><div class="sac"><button data-act="sdl" data-v="Report">${ic('dl',18,1.6)}Download Report</button></div></div>
   <div class="scl"></div><div class="pmp scp"></div></div></div><i class="hind"></i>`;
   fillStmt();
 }
