@@ -306,6 +306,11 @@ button.pc{display:block;width:100%}
 @keyframes splu{from{opacity:0;transform:translateY(8px);filter:blur(2px)}to{opacity:1;transform:none;filter:blur(0)}}
 @keyframes spld{from{opacity:1;transform:scaleX(0)}to{opacity:1;transform:scaleX(1)}}
 @media (prefers-reduced-motion:reduce){.spl-lg,.spl-gl,.spl-lg g>path,.spl-lg>path{animation:none!important;opacity:1!important;filter:none!important}.spl-r{display:none}.spl{transition:none}}
+.spl{touch-action:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.spl-lg{translate:calc(var(--tx,0)*12px) calc(var(--ty,0)*12px);transition:translate .25s ease-out}
+.spl-gl{translate:calc(var(--tx,0)*-22px) calc(var(--ty,0)*-22px);transition:translate .4s ease-out}
+.spl-tap{position:absolute;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:2px solid rgba(255,255,255,.85);pointer-events:none;animation:spltap .8s ease-out forwards}
+@keyframes spltap{from{opacity:.9;transform:scale(.4)}to{opacity:0;transform:scale(9)}}
 /* nav + fab + overlays */
 .nav{position:absolute;left:0;right:0;bottom:0;height:88px;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -1px 0 var(--ln),0 -6px 20px rgba(30,20,80,.06);display:flex;padding:10px 6px 0;z-index:5;transition:transform .25s}
 .nav.off{transform:translateY(100%)}
@@ -976,7 +981,21 @@ document.addEventListener('input',e=>{if(e.target.classList.contains('lq')){S.cQ
 
 /* ---------- boot ---------- */
 go('home');
-setTimeout(()=>{const s=$('#spl');if(!s)return;s.classList.add('out');setTimeout(()=>s.remove(),500)},3600);
+(()=>{const s=$('#spl');if(!s)return;let T,t0=Date.now(),busy=0;
+const hide=()=>{s.classList.add('out');setTimeout(()=>s.remove(),500)};
+const arm=ms=>{clearTimeout(T);T=setTimeout(hide,ms)};arm(3600);
+const pos=e=>{const r=s.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top,r]};
+s.addEventListener('pointermove',e=>{const[x,y,r]=pos(e);s.style.setProperty('--tx',((x/r.width)*2-1).toFixed(2));s.style.setProperty('--ty',((y/r.height)*2-1).toFixed(2))});
+s.addEventListener('pointerleave',()=>{s.style.setProperty('--tx',0);s.style.setProperty('--ty',0)});
+s.addEventListener('pointerdown',e=>{const[x,y,r]=pos(e);
+ s.style.setProperty('--tx',((x/r.width)*2-1).toFixed(2));s.style.setProperty('--ty',((y/r.height)*2-1).toFixed(2));
+ const d=document.createElement('i');d.className='spl-tap';d.style.left=x+'px';d.style.top=y+'px';s.appendChild(d);setTimeout(()=>d.remove(),850);
+ if(Date.now()-t0>1300&&!busy){busy=1;setTimeout(()=>busy=0,900);
+  s.querySelectorAll('.spl-lg g>path:nth-child(-n+3)').forEach((p,i)=>p.animate([{transform:'rotate(0deg) scale(1)'},{transform:'rotate(360deg) scale(1.18)',offset:.5},{transform:'rotate(720deg) scale(1)'}],{duration:900,delay:i*70,easing:'cubic-bezier(.34,1.3,.64,1)'}));
+  s.querySelector('.spl-lg').animate([{scale:1},{scale:1.12},{scale:1}],{duration:500,easing:'ease-out'});}
+ navigator.vibrate&&navigator.vibrate(8);
+ if(Date.now()-t0<9000)arm(Math.max(1800,0))});
+})();
 </script>
 </body>
 </html>
