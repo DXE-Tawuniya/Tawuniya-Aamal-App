@@ -260,6 +260,35 @@ button.pc{display:block;width:100%}
 .pmp button:disabled{opacity:.4}
 .pmem{padding:32px 16px;text-align:center;color:var(--mut);font-size:13px}
 
+
+/* statements (portal SOA flow) */
+.sfc{border:1px solid var(--ln);border-radius:16px;padding:16px;background:#fff}
+.sfc>small{display:block;font-size:13px;line-height:18px;color:var(--blk)}
+.sfc>h3{font-size:15px;line-height:22px;font-weight:600;color:var(--blk)}.sfc>h3.pn{font-size:20px;line-height:28px;color:var(--brand);margin-top:2px}
+.sfb{background:var(--sf);border-radius:12px;padding:12px;margin-top:12px}
+.sfb h4{font-size:13px;line-height:20px;font-weight:600;color:var(--blk);margin-bottom:8px}
+.sfm{background:#fff;border-radius:8px;display:grid;grid-template-columns:1fr 1fr;padding:10px 0}
+.sfm.one{grid-template-columns:1fr}
+.sfm>div{padding:0 12px;min-width:0;display:flex;flex-direction:column;justify-content:flex-end}.sfm>div+div{border-left:1px solid var(--ln)}
+.sfm small{display:block;font-size:11px;line-height:16px;color:var(--blk)}
+.sfm b{display:flex;align-items:center;font-size:17px;line-height:26px;font-weight:600;white-space:nowrap}
+.sfm b.r{color:var(--er)}.sfm b.g{color:var(--ok)}
+.sth{display:flex;align-items:center;gap:8px;margin:22px 0 0}
+.sth h3{font-size:16px;line-height:24px;font-weight:600}
+.stb{font-size:12px;line-height:16px;padding:2px 10px;border-radius:100px;background:#eaf1ff;color:#2f6bff;font-weight:500}
+.sbar{display:flex;align-items:center;justify-content:space-between;margin:16px 0 0;gap:8px}
+.sbar small{font-size:12px;color:var(--mut)}
+.sbar .sac{display:flex;align-items:center;gap:14px}
+.sbar button{display:flex;align-items:center;gap:6px;color:var(--brand);font-size:13px;font-weight:500;height:32px}
+.sbar button.so{color:var(--ink)}
+.sfi{display:flex;gap:8px;margin-top:12px}
+.clf.two{justify-content:space-between}
+.clf.two button{padding:0}
+.sfd{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:var(--sf);border-radius:8px;padding:10px 12px;margin:12px 0 14px}
+.sfd.c2{grid-template-columns:1fr 1fr}
+.sfd small{display:block;font-size:11px;line-height:16px;color:var(--mut)}.sfd b{display:block;font-size:12px;line-height:18px;font-weight:500;color:var(--blk)}
+.slb{display:block;font-size:12px;line-height:16px;color:var(--mut);margin:0 0 6px}
+.sfx{margin-bottom:14px}
 /* claims list */
 .clch{margin:12px -16px 0}.clch.chips{padding-top:0}
 .nh .nf{margin-left:auto;position:relative}.nh .nf i{position:absolute;top:5px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--brand);border:1.5px solid #fff}
@@ -430,6 +459,8 @@ button.pc{display:block;width:100%}
   <section class="view flow" id="v-notif" aria-label="Notifications"></section>
   <section class="view flow" id="v-prov" aria-label="Providers Network"></section>
   <section class="view flow" id="v-members" aria-label="Policy Members"></section>
+  <section class="view flow" id="v-stmt" aria-label="Statements"></section>
+  <section class="view flow" id="v-stmtd" aria-label="Policy Statement"></section>
   <section class="view flow" id="v-details" aria-label="Personal Details"></section>
 
   <nav class="nav" id="nav" aria-label="Main"></nav>
@@ -473,6 +504,7 @@ grid:'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',
 clock:'M20 12a8 8 0 1 1-2.5-5.8M20 4v4h-4M12 8v4l3 2',
 okc:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM8.5 12.500l2.500 2.500 4.500-5',
 mic:'M12 2.5a3.2 3.2 0 0 0-3.2 3.2v5.6a3.2 3.2 0 0 0 6.4 0V5.7A3.2 3.2 0 0 0 12 2.5zM5.5 10.8a6.5 6.5 0 0 0 13 0M12 17.5v4M9 21.5h6',
+sort:'M7 4v16M7 4L4 7M7 4l3 3M17 20V4M17 20l-3-3M17 20l3-3',
 xc:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM9 9l6 6M15 9l-6 6',
 users:'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20a6 6 0 0 1 12 0M16 5.500a3 3 0 0 1 0 5.500M18 14.500a5 5 0 0 1 3 5.500',
 dl:'M12 4v11M7 11l5 5 5-5M5 20h14',
@@ -578,7 +610,7 @@ function renderHome(){
    quick:()=>`<div class="sec lt qs"><div class="sh"><h3>Quick Actions</h3></div><div class="qa">
     <button data-act="members">${QAI.qa_members}<span>Policy Members</span></button><button data-act="endors">${QAI.qa_endors}<span>Endorsements</span></button>
     <button data-act="claims">${QAI.qa_claims}<span>Claims</span></button><button data-act="prov">${QAI.qa_global}<span>Providers Network</span></button>
-    <button data-act="soon" class="hug">${QAI.qa_cards}<span>Statement of Account</span></button></div></div>`,
+    <button data-act="stmts" class="hug">${QAI.qa_cards}<span>Statements</span></button></div></div>`,
    cont:()=>`<div class="sec sf"><div class="sh"><h3>Continue Working</h3><button class="link" data-act="cont">View All ${ic('arrow',16)}</button></div><div class="stack">
     ${[1,2].map(()=>`<button class="card res" data-act="soon"><div style="flex:1"><h4>Draft Endorsement - Al Rajhi Trading</h4><div class="bar"><i style="width:60%"></i></div><small>60% complete</small></div>${ic('chev',18)}</button>`).join('')}
     <button class="card res" data-act="soon"><div><h4>Policy #2430 - Member Review</h4><small>Last edited 2h ago</small></div>${ic('chev',18)}</button></div></div>`,
@@ -893,7 +925,7 @@ function go(v,from){
   if(from)S.prev=from;
   if(v==='customize'){S.draft=S.sections.map(s=>({...s}));renderCust('customize','Customize Dashboard',S.draft,SEC)}
   if(v==='pcustomize'){S.draft=S.widgets.map(s=>({...s}));renderCust('pcustomize','Customize Overview widgets',S.draft,WID)}
-  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims'||v==='endors')renderClaims(v); if(v==='work')renderWork(); if(v==='cont')renderCont(); if(v==='notif')renderNotif(); if(v==='prov')renderProv(); if(v==='pdetail')renderPDetail();
+  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims'||v==='endors')renderClaims(v); if(v==='work')renderWork(); if(v==='cont')renderCont(); if(v==='notif')renderNotif(); if(v==='prov')renderProv(); if(v==='pdetail')renderPDetail(); if(v==='stmt')renderStmt(); if(v==='stmtd')renderStmtD();
   S.view=v;$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));$('#v-'+v).scrollTop=0;
   $('#nav').classList.toggle('off',!NAVV.includes(v));$('#fab').classList.toggle('off',!FABV.includes(v));fabLast=0;fabSeq();
   $$('#nav button').forEach(b=>{const on=b.dataset.v===v;b.classList.toggle('on',on);b.innerHTML=NI[b.dataset.v](on)+NAVI.find(n=>n[0]===b.dataset.v)[1];on?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
@@ -910,6 +942,91 @@ $('#ph').addEventListener('scroll',e=>{const v=e.target;if(!v.classList||!v.clas
   return; /* FAB stays docked to the edge on all tab screens */
   if(t<=10)setFab('large');else if(t>fabLast+3)setFab('small');
   fabLast=t;fabT.push(setTimeout(()=>{if($('#fab').dataset.s==='small'&&fabLast>10)setFab('hidden')},2500))},true);
+
+
+/* ---------- Statements: portal "Statement of Account" flow converted to mobile ---------- */
+const SMON=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const MFULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const f2=n=>Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const SPR=[],SIR=[];(()=>{let x=5;const rnd=m=>{x=(x*9301+49297)%233280;return Math.floor(x/233280*m)};
+ const P0=[['215367468','General',13548.4],['3465346','Mobility',12530],['145678987','General',13548.4],['215367468','Health',10530],['215367468','General',12530],['215367468','General',13548.4],['3465346','General',10530],['145678987','Mobility',11783],['3465346','General',11783],['215367468','General',13548.4]];
+ for(let i=0;i<127;i++){const a=P0[i];const pols=['215367468','3465346','145678987',String(100000000+rnd(900000000))];
+  SPR.push({p:a?a[0]:pols[rnd(4)],l:a?a[1]:LOB[rnd(4)],d:a?a[2]:10000+rnd(5000)+rnd(100)/100,e:String(83287000+rnd(999))+'-IN',y:2023+rnd(3),m:rnd(12)})}
+ const T0=[['Installment','Mobility',13648,'Unpaid'],['Installment','Mobility',550,'Unpaid'],['Endorsement','Mobility',13600,'Paid'],['Installment','Health',13648,'Paid'],['Reimbursement','General',13902,'Paid'],['Installment','Mobility',13648,'Paid'],['Endorsement','Health',640,'Paid'],['Endorsement','Mobility',230,'Paid'],['Reimbursement','Mobility',120,'Paid'],['Installment','Mobility',12943,'Paid']];
+ const TY=['Installment','Endorsement','Reimbursement'];
+ for(let i=0;i<127;i++){const a=T0[i];const m=a?4:rnd(12),y=a?2024:2023+rnd(3);
+  SIR.push({due:SMON[m]+'-'+String(y).slice(2),trx:i<2?'--':'83287153-IN',p:'29796317',t:a?a[0]:TY[rnd(3)],l:a?a[1]:LOB[rnd(4)],a:a?a[2]:100+rnd(14000),s:a?a[3]:(rnd(4)?'Paid':'Unpaid'),y,m,e:'83287153-IN'})}})();
+const STB=(x,c)=>`<small>${x}</small><b${c?` class="${c}"`:''}>${SAR}`;
+const ST={tab:'pol',lob:'',q:'',pg:1,sort:'',fs:'',fy:'',fm:'',sel:'',sf:{s:'',y:'',m:''},dt:'sum',dq:'',dl:'',dpg:1};
+const invTag=s=>`<span class="tg ${s==='Paid'?'g':'y'}">${s}</span>`;
+function stRows(){const q=(ST.q||'').trim().toLowerCase(),inv=ST.tab==='inv';
+ let r=(inv?SIR:SPR).filter(x=>(!q||(x.p+' '+(x.e||'')+' '+(x.trx||'')).toLowerCase().includes(q))&&(!ST.lob||x.l===ST.lob)&&(!inv||!ST.fs||x.s===ST.fs)&&(!ST.fy||String(x.y)===ST.fy)&&(ST.fm===''||String(x.m)===ST.fm));
+ if(!inv&&ST.sort)r=r.slice().sort((a,b)=>ST.sort==='asc'?a.d-b.d:b.d-a.d);return r}
+function stFilters(){return !!(ST.fs&&ST.tab==='inv'||ST.fy||ST.fm!=='')}
+function stStats(pol){return `<div class="sfc">${pol?`<small>Financial Statement</small><h3 class="pn">Policy No. #${pol}</h3>`:'<h3>Financial Statement</h3>'}
+  <div class="sfb"><h4>Outstanding Statistics</h4><div class="sfm"><div>${STB('Total Due Installments','r')}749,676.00</b></div><div>${STB('Total Due Endorsements','r')}86,300.00</b></div></div></div>
+  ${pol?'':`<div class="sfb"><h4>Surplus Statistics</h4><div class="sfm one"><div>${STB('Total Surplus Amounts','g')}749,676.00</b></div></div></div>`}</div>`}
+function fillStmt(){
+  const inv=ST.tab==='inv',rows=stRows(),per=8,pages=Math.max(1,Math.ceil(rows.length/per));ST.pg=Math.min(Math.max(1,ST.pg),pages);
+  const pg=rows.slice((ST.pg-1)*per,ST.pg*per),V=q=>$('#v-stmt '+q);
+  V('.stc').innerHTML=[['pol','Policy Statements','card'],['inv','Invoices','rec']].map(([k,t,i])=>`<button role="tab" class="${ST.tab===k?'on':''}" aria-selected="${ST.tab===k}" data-act="stab" data-v="${k}">${ic(i,18,1.6)}${t}</button>`).join('');
+  V('.sch').innerHTML=[['','All','grid'],['Health','Health','Health'],['Mobility','Mobility','Mobility'],['General','General','General'],['Protection & Saving','Protection & Saving','Protection']].map(([v,t,i])=>`<button role="tab" class="${ST.lob===v?'on':''}" aria-selected="${ST.lob===v}" data-act="slob" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
+  V('.stb').textContent=(inv?SIR:SPR).length;
+  V('.nf i').hidden=!stFilters();
+  V('.scn').textContent=rows.length+(inv?' invoices':' policies');
+  V('.sso').hidden=inv;
+  V('.sso').innerHTML=`Current Due ${ic('sort',16,1.6)}`;
+  V('.scl').innerHTML=pg.length?pg.map(r=>inv?
+   `<div class="clc"><div class="clt"><div><h4>${r.due}</h4><p>Due Date</p></div>${invTag(r.s)}</div>
+    <div class="clg"><div><small>TRX Number</small><b>${r.trx}</b></div><div><small>Policy No.</small><b>${r.p}</b></div><div><small>Type</small><b>${r.t}</b></div><div><small>Line of Business</small><b>${r.l}</b></div><div><small>Amount (SAR)</small><b>${r.a.toLocaleString('en-US')}</b></div></div>
+    <div class="clf two"><button data-act="sdl" data-v="Breakdown">${ic('dl',18,1.6)}Breakdown</button><button data-act="sdl" data-v="Invoice">${ic('dl',18,1.6)}Invoice</button></div></div>`:
+   `<div class="clc"><div class="clt"><div><h4>Policy No. ${r.p}</h4></div></div>
+    <div class="clg"><div><small>Line of Business</small><b>${r.l}</b></div><div><small>Current Due (SAR)</small><b>${f2(r.d)}</b></div></div>
+    <div class="clf two"><button data-act="sdl" data-v="Report">${ic('dl',18,1.6)}Download Report</button><button data-act="sopen" data-v="${r.p}">View Details${ic('chev',16)}</button></div></div>`).join(''):'<div class="pmem">No statements match your filters.</div>';
+  V('.scp').innerHTML=`<button data-act="spg" data-v="-1" ${ST.pg<=1?'disabled':''}>${ic('back',20)}Prev</button><span class="cur">${ST.pg}</span><span>of ${pages}</span><button data-act="spg" data-v="1" ${ST.pg>=pages?'disabled':''}>Next${ic('arrow',20)}</button>`;
+}
+function renderStmt(){
+  $('#v-stmt').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Statements</h2><button class="nf" data-act="sfilter" aria-label="Filter statements">${ic('sliders',24,1.6)}<i hidden></i></button></div>
+  <div class="scroll"><div class="pmw">${stStats()}
+  <div class="sth"><h3>Statement of Account</h3><span class="stb"></span></div>
+  <div class="chips clch stc" role="tablist"></div>
+  <div class="sfi"><label class="pms" style="flex:1">${pmi('search',20)}<input class="sq" type="search" placeholder="Search by Endorsement Number" aria-label="Search statements" value="${ST.q}"></label></div>
+  <div class="chips clch sch" role="tablist"></div>
+  <div class="sbar"><small class="scn"></small><div class="sac"><button class="so sso" data-act="ssort"></button><button data-act="sdl" data-v="Report">${ic('dl',18,1.6)}Download Report</button></div></div>
+  <div class="scl"></div><div class="pmp scp"></div></div></div><i class="hind"></i>`;
+  fillStmt();
+}
+/* policy statement detail: Summary / Details */
+function sdRows(){let x=+String(ST.sel).slice(-5)||7;const rnd=m=>{x=(x*9301+49297)%233280;return Math.floor(x/233280*m)};
+ const dts=['10-MAY-23','14-MAY-23','21-MAY-23','02-JUN-23','18-JUN-23','05-JUL-23'],o=[];
+ for(let i=0;i<34;i++){const d=dts[rnd(6)],a=i?10000+rnd(5000)+rnd(100)/100:13648;o.push({d,trx:'83287153-IN',p:ST.sel,r:String(1+rnd(3)),l:i<4?'General':LOB[rnd(4)],due:dts[Math.min(5,dts.indexOf(d)+rnd(2))],doc:'INV',src:'29796317',cc:'29796317',deb:a,cr:i%5===4?a/2:a,bal:i%5===4?a/2:a})}return o}
+function sdFilter(){const q=ST.dq.trim().toLowerCase();return sdRows().filter(r=>(!q||r.trx.toLowerCase().includes(q))&&(!ST.dl||r.l===ST.dl))}
+function fillStmtD(){
+  const rows=sdFilter(),per=6,pages=Math.max(1,Math.ceil(rows.length/per));ST.dpg=Math.min(Math.max(1,ST.dpg),pages);
+  const pg=rows.slice((ST.dpg-1)*per,ST.dpg*per),V=q=>$('#v-stmtd '+q),sum=ST.dt==='sum';
+  V('.stc').innerHTML=[['sum','Summary'],['det','Details']].map(([k,t])=>`<button role="tab" class="${ST.dt===k?'on':''}" aria-selected="${ST.dt===k}" data-act="sdtab" data-v="${k}">${t}</button>`).join('');
+  V('.scn').textContent=rows.length+' transactions';
+  V('.scl').innerHTML=pg.length?pg.map(r=>`<div class="clc"><div class="clt"><div><h4>${r.d}</h4><p>TRX Date</p></div></div>
+   <div class="clg"><div><small>TRX Number</small><b>${r.trx}</b></div><div><small>Policy No.</small><b>${r.p}</b></div>${sum?`<div><small>Risk No.</small><b>${r.r}</b></div><div><small>Line of Business</small><b>${r.l}</b></div><div><small>Due Date/Status</small><b>${r.due}</b></div>`:`<div><small>DOC</small><b>${r.doc}</b></div><div><small>Source</small><b>${r.src}</b></div><div><small>Client Code</small><b>${r.cc}</b></div>`}</div>
+   ${sum?`<div class="sfd"><div><small>Debit (SAR)</small><b>${f2(r.deb)}</b></div><div><small>Credit (SAR)</small><b>${f2(r.cr)}</b></div><div><small>Balance (SAR)</small><b>${f2(r.bal)}</b></div></div>`:`<div class="sfd c2"><div><small>Debit (SAR)</small><b>${f2(r.deb)}</b></div><div><small>Credit (SAR)</small><b>${f2(r.cr)}</b></div></div>`}</div>`).join(''):'<div class="pmem">No transactions match your search.</div>';
+  V('.scp').innerHTML=`<button data-act="sdpg" data-v="-1" ${ST.dpg<=1?'disabled':''}>${ic('back',20)}Prev</button><span class="cur">${ST.dpg}</span><span>of ${pages}</span><button data-act="sdpg" data-v="1" ${ST.dpg>=pages?'disabled':''}>Next${ic('arrow',20)}</button>`;
+}
+function renderStmtD(){
+  $('#v-stmtd').innerHTML=`${sb()}<div class="nh"><button data-act="backSt" aria-label="Back">${ic('back',22)}</button><h2>Statements</h2></div>
+  <div class="scroll"><div class="pmw">${stStats(ST.sel)}
+  <div class="sth"><h3>Statement of Account</h3><span class="stb">127</span></div>
+  <div class="chips clch stc" role="tablist"></div>
+  <div class="sfi"><label class="pms" style="flex:1">${pmi('search',20)}<input class="sdq" type="search" placeholder="Search by Endorsement Number" aria-label="Search transactions" value="${ST.dq}"></label></div>
+  <div class="sfi"><div class="sel"><select class="sdl" aria-label="Line of business"><option value="">All Line of businesses</option>${LOB.map(l=>`<option ${ST.dl===l?'selected':''}>${l}</option>`).join('')}</select>${ic('chevd',16)}</div></div>
+  <div class="sbar"><small class="scn"></small><div class="sac"><button data-act="sdl" data-v="Report">${ic('dl',18,1.6)}Download Report</button></div></div>
+  <div class="scl"></div><div class="pmp scp"></div></div></div><i class="hind"></i>`;
+  fillStmtD();
+}
+function stSheet(){const o=(arr,cur)=>arr.map(([v,t])=>`<option value="${v}" ${String(cur)===String(v)?'selected':''}>${t}</option>`).join('');
+ const sel=(id,l,h)=>`<div class="sfx"><label class="slb" for="${id}">${l}</label><div class="sel"><select id="${id}">${h}</select>${ic('chevd',16)}</div></div>`;
+ sheet(`<h3>Filter statements</h3>${ST.tab==='inv'?sel('sfS','Status',o([['','All Status'],['Paid','Paid'],['Unpaid','Unpaid']],ST.sf.s)):''}${sel('sfY','Year',o([['','All Years'],['2023','2023'],['2024','2024'],['2025','2025']],ST.sf.y))}${sel('sfM','Month',o([['','All Months'],...MFULL.map((m,i)=>[String(i),m])],ST.sf.m))}<div class="fr"><button class="bt sc" data-act="sreset">Reset</button><button class="bt pr" data-act="sapply">Apply</button></div>`)}
+document.addEventListener('input',e=>{const c=e.target.classList;if(c.contains('sq')){ST.q=e.target.value;ST.pg=1;fillStmt()}if(c.contains('sdq')){ST.dq=e.target.value;ST.dpg=1;fillStmtD()}});
+document.addEventListener('change',e=>{if(e.target.classList.contains('sdl')){ST.dl=e.target.value;ST.dpg=1;fillStmtD()}});
 
 /* ---------- sheets + chat ---------- */
 function sheet(h){$('#sheet').innerHTML=h;$('#dim').classList.add('on');$('#sheet').classList.add('on')}
@@ -964,6 +1081,19 @@ document.addEventListener('click',e=>{
    case 'claims':go('claims','home');break;
    case 'endors':go('endors','home');break;
    case 'backCl':go('home');break;
+   case 'stmts':Object.assign(ST,{tab:'pol',lob:'',q:'',pg:1,sort:'',fs:'',fy:'',fm:'',sf:{s:'',y:'',m:''}});go('stmt','home');break;
+   case 'stab':ST.tab=v;ST.pg=1;fillStmt();break;
+   case 'slob':ST.lob=v;ST.pg=1;fillStmt();break;
+   case 'ssort':ST.sort=ST.sort===''?'desc':ST.sort==='desc'?'asc':'';ST.pg=1;fillStmt();toast(ST.sort?'Sorted by Current Due ('+(ST.sort==='desc'?'high to low':'low to high')+')':'Sorting cleared');break;
+   case 'spg':ST.pg+= +v;fillStmt();$('#v-stmt .scroll').scrollTop=$('#v-stmt .sth').offsetTop;break;
+   case 'sfilter':stSheet();break;
+   case 'sapply':ST.sf={s:$('#sfS')?.value||'',y:$('#sfY').value,m:$('#sfM').value};ST.fs=ST.sf.s;ST.fy=ST.sf.y;ST.fm=ST.sf.m;ST.pg=1;shut();fillStmt();break;
+   case 'sreset':ST.sf={s:'',y:'',m:''};ST.fs='';ST.fy='';ST.fm='';ST.pg=1;shut();fillStmt();break;
+   case 'sdl':toast(v==='Report'?'Report download started':v+' download started');break;
+   case 'sopen':Object.assign(ST,{sel:v,dt:'sum',dq:'',dl:'',dpg:1});go('stmtd','stmt');break;
+   case 'backSt':go('stmt');break;
+   case 'sdtab':ST.dt=v;ST.dpg=1;fillStmtD();break;
+   case 'sdpg':ST.dpg+= +v;fillStmtD();$('#v-stmtd .scroll').scrollTop=$('#v-stmtd .sth').offsetTop;break;
    case 'ctype':S.cT=v;S.cPg=1;fillClaims();break;
    case 'cfilter':S.cS2=S.cS||'';cfSheet();break;
    case 'cfpick':S.cS2=v;cfSheet();break;
