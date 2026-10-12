@@ -499,7 +499,7 @@ function renderHome(){
    ${S.sections.filter(s=>s.on&&s.id!=='pinned').map(s=>body[s.id]()).join('')}
    <button class="help" data-act="soon"><span class="ic">${ic('head',22)}</span><div><h3>Need Help? We're Here!</h3><p>Contact us for quick and reliable business help.</p></div><span class="go">${ic('arrow',16)}</span></button>`;
 }
-const mets=(k=1)=>`<div class="mets"><div class="met">${ic('rec',22,1.6)}<b>${Math.max(1,Math.round(12*k))}</b><small>Active Policies</small></div><div class="met">${ic('users',22,1.6)}<b>${Math.round(847*k)}</b><small>Total Members</small></div><div class="met">${ic('claim',22,1.6)}<b>${Math.max(1,Math.round(23*k))}</b><small>Open Claims</small></div></div>`;
+const mets=(k=1)=>`<div class="mets"><div class="met">${ic('rec',18,1.6)}<b>${Math.max(1,Math.round(12*k))}</b><small>Active Policies</small></div><div class="met">${ic('users',18,1.6)}<b>${Math.round(847*k)}</b><small>Total Members</small></div><div class="met">${ic('claim',18,1.6)}<b>${Math.max(1,Math.round(23*k))}</b><small>Open Claims</small></div></div>`;
 
 /* ---------- Customize (dashboard + performance widgets share one screen builder) ---------- */
 function renderCust(view,title,list,meta,min){
