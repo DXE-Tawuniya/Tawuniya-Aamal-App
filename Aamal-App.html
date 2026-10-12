@@ -301,7 +301,7 @@ button.pc{display:block;width:100%}
 .bub.on{opacity:1;transform:none}
 .toast{pointer-events:none;position:absolute;top:56px;left:16px;right:16px;z-index:30;background:#fff;border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:center;font-size:13px;box-shadow:0 8px 28px rgba(30,20,80,.2);transform:translateY(-160px);opacity:0;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .2s}
 .toast.on{transform:none;opacity:1}
-.toast svg{color:var(--ok)}
+.toast svg{color:var(--ok)}.toast.w svg{color:var(--wa)}
 .dim{position:absolute;inset:0;background:rgba(20,16,40,.45);z-index:20;opacity:0;pointer-events:none;transition:opacity .3s}
 .dim.on{opacity:1;pointer-events:auto}
 .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;z-index:21;padding:20px 16px 36px;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;gap:12px}
@@ -462,7 +462,8 @@ const sb=()=>`<div class="sb"><span>9:41</span><span><svg width="18" height="12"
 const polCard=(p,o={})=>{const pin=S.pinned.has(p.id);return `<${o.btn?'button data-act="open" data-id="'+p.id+'"':'article'} class="pc ${o.full?'full':''}"><svg class="art" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><ellipse cx="205" cy="48" rx="120" ry="70" fill="#2d2354" opacity=".55"/><ellipse cx="150" cy="205" rx="130" ry="80" fill="#2d2354" opacity=".55"/></svg>
 <div class="top2"><span class="cat">${ic(catIc(p.cat),15,1.6)}${p.cat}</span>${o.star?`<span class="star" role="button" tabindex="0" data-act="pin" data-id="${p.id}" aria-pressed="${pin}" aria-label="${pin?'Unpin':'Pin'} policy ${p.no}">${ic('star',22,1.6,pin?'currentColor':'none')}</span>`:''}</div>
 <div class="pg"><div><small>Type</small><b>${p.type}</b></div><div class="r"><small>Members</small><b>${p.m}</b></div><div><small>Policy No.</small><b>${p.no}</b></div><div class="r"><small>Expires</small><b>${p.exp}</b></div></div></${o.btn?'button':'article'}>`};
-function toast(t){const e=$('#toast');e.innerHTML=ic('check',18,2.2)+`<span>${t}</span>`;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)}
+function toast(t,w){const e=$('#toast');e.classList.toggle('w',!!w);e.innerHTML=(w?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg>':ic('check',18,2.2))+`<span>${t}</span>`;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)}
+const MAXPIN=5;
 const soon=()=>toast('Coming soon in this prototype');
 const hdr=(title,right='')=>`${sb()}<div class="top"><h1>${title}</h1><div class="acts2">${right}</div></div>`;
 
@@ -778,7 +779,7 @@ document.addEventListener('click',e=>{
    case 'saveCust':if(S.view==='customize'){S.sections=S.draft.map(s=>({...s}));go('home');toast('Dashboard updated')}else{S.widgets=S.draft.map(s=>({...s}));go('performance');toast('Widgets updated')}break;
    case 'cancelCust':go(S.view==='pcustomize'?'performance':(S.prev||'home'));break;
    case 'open':if(e.target.closest('[data-act=pin]'))break;S.pol=POL.find(p=>p.id===id);S.dTab=0;S.hTab=0;go('pdetail',S.view);break;
-   case 'pin':{e.stopPropagation();S.pinned.has(id)?S.pinned.delete(id):S.pinned.add(id);const k=$('#v-policies').scrollTop;renderPolicies.keep=1;renderPolicies();renderPolicies.keep=0;$('#v-policies').scrollTop=k;break}
+   case 'pin':{e.stopPropagation();if(!S.pinned.has(id)&&S.pinned.size>=MAXPIN){toast('You can pin up to '+MAXPIN+' policies. Unpin one to add another.',1);break}S.pinned.has(id)?S.pinned.delete(id):S.pinned.add(id);const k=$('#v-policies').scrollTop;renderPolicies.keep=1;renderPolicies();renderPolicies.keep=0;$('#v-policies').scrollTop=k;break}
    case 'backDetail':go('policies');break;
    case 'dtab':S.dTab=+v;{const k=$('#v-pdetail .scroll').scrollTop;renderPDetail();$('#v-pdetail .scroll').scrollTop=k}break;
    case 'htab':S.hTab=+v;{const k=$('#v-pdetail .scroll').scrollTop;renderPDetail();$('#v-pdetail .scroll').scrollTop=k}break;
