@@ -972,7 +972,6 @@ function fillStmt(){
   V('.stc').innerHTML=[['pol','Policy Statements','card'],['inv','Invoices','rec']].map(([k,t,i])=>`<button role="tab" class="${ST.tab===k?'on':''}" aria-selected="${ST.tab===k}" data-act="stab" data-v="${k}">${ic(i,18,1.6)}${t}</button>`).join('');
   V('.sch').innerHTML=[['','All','grid'],['Health','Health','Health'],['Mobility','Mobility','Mobility'],['General','General','General'],['Protection & Saving','Protection & Saving','Protection']].map(([v,t,i])=>`<button role="tab" class="${ST.lob===v?'on':''}" aria-selected="${ST.lob===v}" data-act="slob" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
   V('.stb').textContent=(inv?SIR:SPR).length;
-  V('.nf i').hidden=!stFilters();
   V('.scn').textContent=rows.length+(inv?' invoices':' policies');
   V('.sso').hidden=inv;
   V('.sso').innerHTML=`Current Due ${ic('sort',16,1.6)}`;
@@ -986,7 +985,7 @@ function fillStmt(){
   V('.scp').innerHTML=`<button data-act="spg" data-v="-1" ${ST.pg<=1?'disabled':''}>${ic('back',20)}Prev</button><span class="cur">${ST.pg}</span><span>of ${pages}</span><button data-act="spg" data-v="1" ${ST.pg>=pages?'disabled':''}>Next${ic('arrow',20)}</button>`;
 }
 function renderStmt(){
-  $('#v-stmt').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Statements</h2><button class="nf" data-act="sfilter" aria-label="Filter statements">${ic('sliders',24,1.6)}<i hidden></i></button></div>
+  $('#v-stmt').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Statements</h2></div>
   <div class="scroll"><div class="pmw">${stStats()}
   <div class="sth"><h3>Statement of Account</h3><span class="stb"></span></div>
   <div class="chips clch stc" role="tablist"></div>
