@@ -334,6 +334,7 @@ button.pc{display:block;width:100%}
   <section class="view flow" id="v-endors" aria-label="Endorsements"></section>
   <section class="view flow" id="v-work" aria-label="Today's Work"></section>
   <section class="view flow" id="v-cont" aria-label="Continue Working"></section>
+  <section class="view flow" id="v-notif" aria-label="Notifications"></section>
   <section class="view flow" id="v-members" aria-label="Policy Members"></section>
   <section class="view flow" id="v-details" aria-label="Personal Details"></section>
 
@@ -453,7 +454,7 @@ const REQ=[
  {g:'Members',t:'Abdullah Mohammed',s:'3 hours ago',st:'Rejected'},
  {g:'Endorsements',t:'Endorsement #E-3318 added',s:'Yesterday • Sarah K.',st:'Approved'}];
 const S={view:'home',prev:'home',pinned:new Set([1,2,3]),
- sections:['pinned','work','quick','cont','over','act'].map(id=>({id,on:true})),draft:null,
+ sections:['pinned','work','quick','cont','over','act'].map(id=>({id,on:id!=='act'})),draft:null,
  widgets:Object.keys(WID).map(id=>({id,on:true})),
  pTab:'All',pQ:'',pSearch:false,perfTab:'All',actTab:'Recent',rTab:'All',rQ:'',rSearch:false,
  pol:POL[0],dTab:0,hTab:0,open:null};
@@ -491,7 +492,7 @@ function renderHome(){
     const rows=(S.actTab==='Recent'?R:N).map(r=>`<div class="card task"><div class="tx"><h4>${r[0]}</h4><p>${r[1]}</p></div><span class="tg ${r[3]}">${r[2]}</span></div>`).join('');
     return `<div class="sec sf"><div class="sh"><h3>Activity</h3></div><div class="tabs">${['Recent','Notifications'].map(t=>`<button class="${S.actTab===t?'on':''}" data-act="acttab" data-v="${t}">${t}</button>`).join('')}</div><div class="stack">${rows}</div></div>`}};
   const n=pins.length;
-  $('#v-home').innerHTML=`<div class="hero hero-h">${sb()}<div class="top" style="height:64px"><button class="pill" data-act="customize">${ic('sliders',18,1.6)}Customize</button><div class="acts2"><button class="ib" data-act="soon" aria-label="Notifications">${ic('bell',24,1.6)}</button><button class="ib" data-act="soon" aria-label="Search">${ic('search',24,1.6)}</button></div></div>
+  $('#v-home').innerHTML=`<div class="hero hero-h">${sb()}<div class="top" style="height:64px"><button class="pill" data-act="customize">${ic('sliders',18,1.6)}Customize</button><div class="acts2"><button class="ib" data-act="notif" aria-label="Notifications">${ic('bell',24,1.6)}</button><button class="ib" data-act="soon" aria-label="Search">${ic('search',24,1.6)}</button></div></div>
    <h1 class="hi">Hayak, Abdullah!</h1><p class="hs">${showPins?(n?`Here ${n===1?'is your 1 pinned policy':'are your '+n+' pinned policies'}.`:'No pinned policies yet.'):'Here is your dashboard for today.'}</p>
    ${showPins&&n?`<div class="carwrap"><div class="car" tabindex="0" aria-label="Pinned policies">${pins.map(p=>polCard(p,{btn:1})).join('')}</div></div>`:`<div style="height:20px"></div>`}</div>
    ${showPins&&!n?`<div class="sec lt" style="font-size:13px;color:var(--mut)">Tap the star on any policy in the Policies tab to pin it here.</div>`:''}
@@ -748,11 +749,16 @@ function renderCont(){
   $('#v-cont').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Continue Working</h2></div>
   <div class="scroll"><div class="pmw"><div class="clh" style="margin-top:0"><h3>Recent items</h3><small>${CONT.length} items</small></div><div class="stack">${CONT.map(([t,n])=>`<button class="card res" data-act="soon"><div style="flex:1"><h4>${t}</h4><div class="bar"><i style="width:${n}%"></i></div><small>${n}% complete</small></div>${ic('chev',18)}</button>`).join('')}</div></div></div><i class="hind"></i>`;
 }
+const NOTIF=[['Renewal reminder: Policy #2430560603','Today • Auto-System','New','p'],['3 dependants awaiting approval','Today • HR Admin','New','p'],['Member added to Policy #2430','2 hours ago • by Sarah K.','Completed','g'],['Claim #8821 approved','Yesterday • Auto-System','Completed','g'],['Invoice #INV-2024-001 pending payment','2 days ago • Finance Dept.','Waiting','y'],['Statement for Aug 2025 is ready','3 days ago • Finance Dept.','Read','g']];
+function renderNotif(){
+  $('#v-notif').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Notifications</h2></div>
+  <div class="scroll"><div class="pmw"><div class="clh" style="margin-top:0"><h3>All notifications</h3><small>${NOTIF.length} items</small></div><div class="stack">${NOTIF.map(r=>`<div class="card task"><div class="tx"><h4>${r[0]}</h4><p>${r[1]}</p></div><span class="tg ${r[3]}">${r[2]}</span></div>`).join('')}</div></div></div><i class="hind"></i>`;
+}
 function go(v,from){
   if(from)S.prev=from;
   if(v==='customize'){S.draft=S.sections.map(s=>({...s}));renderCust('customize','Customize Dashboard',S.draft,SEC)}
   if(v==='pcustomize'){S.draft=S.widgets.map(s=>({...s}));renderCust('pcustomize','Customize Overview widgets',S.draft,WID)}
-  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims'||v==='endors')renderClaims(v); if(v==='work')renderWork(); if(v==='cont')renderCont(); if(v==='pdetail')renderPDetail();
+  if(v==='policies')renderPolicies(); if(v==='performance')renderPerf(); if(v==='home')renderHome(); if(v==='more')renderMore(); if(v==='requests')renderRequests(); if(v==='details')renderDetails(); if(v==='members')renderMembers(); if(v==='claims'||v==='endors')renderClaims(v); if(v==='work')renderWork(); if(v==='cont')renderCont(); if(v==='notif')renderNotif(); if(v==='pdetail')renderPDetail();
   S.view=v;$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));$('#v-'+v).scrollTop=0;
   $('#nav').classList.toggle('off',!NAVV.includes(v));$('#fab').classList.toggle('off',!FABV.includes(v));fabLast=0;fabSeq();
   $$('#nav button').forEach(b=>{const on=b.dataset.v===v;b.classList.toggle('on',on);b.innerHTML=NI[b.dataset.v](on)+NAVI.find(n=>n[0]===b.dataset.v)[1];on?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
@@ -813,6 +819,7 @@ document.addEventListener('click',e=>{
    case 'backMore':go('more');break;
    case 'work':go('work','home');break;
    case 'cont':go('cont','home');break;
+   case 'notif':go('notif','home');break;
    case 'members':go('members','home');break;
    case 'backMem':go('home');break;
    case 'claims':go('claims','home');break;
