@@ -980,11 +980,11 @@ function fillStmt(){
 }
 function renderStmt(){
   $('#v-stmt').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Statements</h2></div>
-  <div class="scroll"><div class="pmw">${stStats()}
+  <div class="scroll"><div class="pmw"><label class="pms">${pmi('search',20)}<input class="sq" type="search" placeholder="Search by Endorsement Number" aria-label="Search statements" value="${ST.q}"></label>
+  <div class="chips clch sch" role="tablist"></div>
+  <div style="margin-top:16px">${stStats()}</div>
   <div class="sth"><h3>Statement of Account</h3><span class="stb"></span></div>
   <div class="chips clch stc" role="tablist"></div>
-  <div class="sfi"><label class="pms" style="flex:1">${pmi('search',20)}<input class="sq" type="search" placeholder="Search by Endorsement Number" aria-label="Search statements" value="${ST.q}"></label></div>
-  <div class="chips clch sch" role="tablist"></div>
   <div class="sbar"><small class="scn"></small><div class="sac"><button class="so sso" data-act="ssort"></button><button data-act="sdl" data-v="Report">${ic('dl',18,1.6)}Download Report</button></div></div>
   <div class="scl"></div><div class="pmp scp"></div></div></div><i class="hind"></i>`;
   fillStmt();
