@@ -276,6 +276,7 @@ button.pc{display:block;width:100%}
 .sbar button{display:flex;align-items:center;gap:6px;color:var(--brand);font-size:13px;font-weight:500;height:32px}
 .sbar button.so{color:var(--ink)}
 .sfi{display:flex;gap:8px;margin-top:12px}
+.mini.stc{margin-top:12px;margin-bottom:0}
 .clf.two{justify-content:space-between}
 .clf.two button{padding:0}
 .sfd{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:var(--sf);border-radius:8px;padding:10px 12px;margin:12px 0 14px}
@@ -963,7 +964,7 @@ function stStats(pol){const m=(i,l,v,c,w)=>`<div class="met${w?' w':''}">${ic(i,
 function fillStmt(){
   const inv=ST.tab==='inv',rows=stRows(),per=8,pages=Math.max(1,Math.ceil(rows.length/per));ST.pg=Math.min(Math.max(1,ST.pg),pages);
   const pg=rows.slice((ST.pg-1)*per,ST.pg*per),V=q=>$('#v-stmt '+q);
-  V('.stc').innerHTML=[['pol','Policy Statements','card'],['inv','Invoices','rec']].map(([k,t,i])=>`<button role="tab" class="${ST.tab===k?'on':''}" aria-selected="${ST.tab===k}" data-act="stab" data-v="${k}">${ic(i,18,1.6)}${t}</button>`).join('');
+  V('.stc').innerHTML=[['pol','Policy Statements'],['inv','Invoices']].map(([k,t])=>`<button role="tab" class="${ST.tab===k?'on':''}" aria-selected="${ST.tab===k}" data-act="stab" data-v="${k}">${t}</button>`).join('');
   V('.sch').innerHTML=[['','All','grid'],['Health','Health','Health'],['Mobility','Mobility','Mobility'],['General','General','General'],['Protection & Saving','Protection & Saving','Protection']].map(([v,t,i])=>`<button role="tab" class="${ST.lob===v?'on':''}" aria-selected="${ST.lob===v}" data-act="slob" data-v="${v}">${ic(i,18,1.6)}${t}</button>`).join('');
   V('.stb').textContent=(inv?SIR:SPR).length;
   V('.scn').textContent=rows.length+(inv?' invoices':' policies');
@@ -984,7 +985,7 @@ function renderStmt(){
   <div class="chips clch sch" role="tablist"></div>
   <div style="margin-top:16px">${stStats()}</div>
   <div class="sth"><h3>Statement of Account</h3><span class="stb"></span></div>
-  <div class="chips clch stc" role="tablist"></div>
+  <div class="mini stc" role="tablist"></div>
   <div class="sbar"><small class="scn"></small><div class="sac"><button class="so sso" data-act="ssort"></button><button data-act="sdl" data-v="Report">${ic('dl',18,1.6)}Download Report</button></div></div>
   <div class="scl"></div><div class="pmp scp"></div></div></div><i class="hind"></i>`;
   fillStmt();
@@ -1008,7 +1009,7 @@ function renderStmtD(){
   $('#v-stmtd').innerHTML=`${sb()}<div class="nh"><button data-act="backSt" aria-label="Back">${ic('back',22)}</button><h2>Statements</h2></div>
   <div class="scroll"><div class="pmw">${stStats(ST.sel)}
   <div class="sth"><h3>Statement of Account</h3><span class="stb">127</span></div>
-  <div class="chips clch stc" role="tablist"></div>
+  <div class="mini stc" role="tablist"></div>
   <div class="sfi"><label class="pms" style="flex:1">${pmi('search',20)}<input class="sdq" type="search" placeholder="Search by Endorsement Number" aria-label="Search transactions" value="${ST.dq}"></label></div>
   <div class="sfi"><div class="sel"><select class="sdl" aria-label="Line of business"><option value="">All Line of businesses</option>${LOB.map(l=>`<option ${ST.dl===l?'selected':''}>${l}</option>`).join('')}</select>${ic('chevd',16)}</div></div>
   <div class="sbar"><small class="scn"></small><div class="sac"><button data-act="sdl" data-v="Report">${ic('dl',18,1.6)}Download Report</button></div></div>
