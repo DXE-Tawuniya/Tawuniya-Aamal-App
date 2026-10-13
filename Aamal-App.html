@@ -43,7 +43,7 @@ html,body{overscroll-behavior:none}@media (max-width:499px){body{background:#fff
 .pill{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:100px;background:#fff;color:var(--brand);font-size:13px;font-weight:500;box-shadow:0 0 0 1px rgba(107,71,245,.15)}
 .hi{font-size:20px;line-height:28px;font-weight:400;padding:12px 16px 0}
 .hs{font-size:12px;line-height:18px;padding:2px 16px 0;font-weight:400}
-.carwrap{display:flow-root;margin-top:14px;background:linear-gradient(var(--brand) 0 78%,#fff 78%)}
+.carwrap{display:flow-root;margin-top:14px;position:relative;background:#fff}.carwrap::before{content:"";position:absolute;left:0;right:0;top:0;height:78%;background:var(--brand);border-radius:0 0 16px 16px}.carwrap>.car{position:relative}
 .car{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding:0 16px;scrollbar-width:none}
 .car::-webkit-scrollbar{display:none}
 .car::after,.chips::after,.mini::after{content:'';flex:none;width:1px}
@@ -311,10 +311,10 @@ button.pc{display:block;width:100%}
 .tg.o{background:#fbf6e6;color:#9b7908}
 .spl{position:absolute;inset:0;z-index:100;isolation:isolate;background:#6b47f5;display:grid;place-items:center;overflow:hidden;pointer-events:all}
 .spl video{position:absolute;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
-.spl canvas{position:absolute;left:50%;top:50%;width:276px;height:276px;margin:-138px 0 0 -138px;display:block;pointer-events:none;transition:opacity .4s ease,transform .7s cubic-bezier(.5,0,.2,1)}
-.spl.spl-go canvas{opacity:0;transform:scale(.9)}
-.spl{will-change:transform,opacity;transform:translate3d(0,0,0)}
-.spl.spl-go{transform:translate3d(0,var(--Y,-600px),0);transition:transform .7s cubic-bezier(.76,0,.24,1),opacity .3s ease .45s;opacity:0;pointer-events:none}
+.spl canvas{position:absolute;left:50%;top:var(--cy,50%);width:276px;height:276px;margin:-138px 0 0 -138px;display:block;pointer-events:none;transition:opacity .4s ease,transform .7s cubic-bezier(.5,0,.2,1)}
+.spl.spl-go canvas{opacity:0;transform:scale(.92)}
+.spl{will-change:height,opacity;inset:0 0 auto 0;height:100%}
+.spl.spl-go{height:var(--H,258px);border-radius:0 0 16px 16px;transition:height .7s cubic-bezier(.65,0,.2,1),border-radius .7s cubic-bezier(.65,0,.2,1),opacity .28s ease .48s;opacity:0;pointer-events:none}
 @keyframes hrise{from{opacity:0;transform:translate3d(0,22px,0)}to{opacity:1;transform:none}}
 #v-home.intro .car{animation:hrise .5s cubic-bezier(.2,.8,.2,1) .22s both}
 #v-home.intro>:nth-child(n+3){animation:hrise .5s cubic-bezier(.2,.8,.2,1) .3s both}
@@ -322,7 +322,7 @@ button.pc{display:block;width:100%}
 #v-home.intro>:nth-child(n+5){animation-delay:.42s}
 #v-home.intro>:nth-child(n+6){animation-delay:.48s}
 #v-home.intro>:nth-child(n+7){animation-delay:.54s}
-@media (prefers-reduced-motion:reduce){.spl.spl-go{transition:opacity .3s ease;transform:none}#v-home.intro *{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.spl.spl-go{transition:opacity .3s ease;height:100%}#v-home.intro *{animation:none!important}}
 /* nav + fab + overlays */
 .nav{position:absolute;left:0;right:0;bottom:0;height:88px;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -1px 0 var(--ln),0 -6px 20px rgba(30,20,80,.06);display:flex;padding:10px 6px 0;z-index:5;transition:transform .25s}
 .nav.off{transform:translateY(100%)}
@@ -1113,7 +1113,7 @@ const loop=()=>{try{draw()}catch(e){fb();return}if(!v.ended&&!done)v.requestVide
 v.addEventListener('playing',loop,{once:true});
 const H=()=>{const ph=$('#ph'),k=ph.getBoundingClientRect().width/ph.offsetWidth||1,cw=$('.carwrap');
  if(!cw)return 258;const r=cw.getBoundingClientRect(),p=ph.getBoundingClientRect();return Math.round((r.top-p.top+r.height*.78)/k)};
-const finish=(wait=1000)=>{if(done)return;done=1;setTimeout(()=>{s.style.setProperty('--Y',-(s.offsetHeight-H())+'px');v.pause();$('#v-home').classList.add('intro');setTimeout(()=>$('#v-home').classList.remove('intro'),2200);s.classList.add('spl-go');setTimeout(()=>s.remove(),800)},wait)};
+const finish=(wait=1000)=>{if(done)return;done=1;setTimeout(()=>{s.style.setProperty('--cy',s.offsetHeight/2+'px');s.style.setProperty('--H',H()+'px');v.pause();$('#v-home').classList.add('intro');setTimeout(()=>$('#v-home').classList.remove('intro'),2200);s.classList.add('spl-go');setTimeout(()=>s.remove(),800)},wait)};
 v.addEventListener('ended',()=>finish(500));
 v.addEventListener('error',()=>finish(400));
 const p=v.play();if(p&&p.catch)p.catch(()=>finish(400));
