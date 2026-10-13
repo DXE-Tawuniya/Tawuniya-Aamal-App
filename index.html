@@ -332,6 +332,7 @@ button.pc{display:block;width:100%}
 /* Login + OTP (Figma frames 3485:44979 / 45100 / 46440): white screen over Home, shown after the splash */
 #lg{position:absolute;inset:0;z-index:60;background:#fff;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;color:var(--ink);font-family:inherit}
 #lg::-webkit-scrollbar{display:none}
+#lg.re{animation:hfade .3s ease both}
 #lg.out{opacity:0;transform:translate3d(0,-14px,0);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
 #ph{overflow:clip}
 #lg .lgw{flex:1;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 20px) 16px 32px}
@@ -1152,8 +1153,8 @@ document.addEventListener('click',e=>{
    case 'cpg':S.cPg+= +v;fillClaims();$('#v-'+S.lk+' .scroll').scrollTop=0;break;
    case 'mtog':{const k=+v;S.mOpen=S.mOpen===k?-1:k;fillMembers();break}
    case 'mpg':S.mPg=Math.min(11,Math.max(1,S.mPg+ +v));fillMembers();break;
-   case 'logout':sheet(`<h3>Log out?</h3><p>You will return to the sign-in screen. This is a demo, so nothing is actually signed out.</p><button class="bt dg" data-act="logoutOk">Log out</button><button class="bt sc" data-act="shut">Cancel</button>`);break;
-   case 'logoutOk':shut();go('home');toast('Logged out (demo)');break;
+   case 'logout':sheet(`<h3>Log out?</h3><p>You will return to the sign-in screen.</p><button class="bt dg" data-act="logoutOk">Log out</button><button class="bt sc" data-act="shut">Cancel</button>`);break;
+   case 'logoutOk':shut();go('home');if(LG)LG.logout();else toast('Logged out');break;
   }
 });
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-act=pin]')){e.preventDefault();e.target.click()}});
@@ -1250,11 +1251,17 @@ function done(){
  clearInterval(tm);document.activeElement&&document.activeElement.blur&&document.activeElement.blur();
  const h=$('#v-home');lg.classList.add('out');
  setTimeout(()=>{h.classList.add('intro2');h.classList.remove('pre');fabSeq();setTimeout(()=>h.classList.remove('intro2'),2000)},120);
- setTimeout(()=>lg.remove(),520);
+ setTimeout(()=>{lg.style.display='none';lg.classList.remove('out')},520);
 }
 function show(){drawLogin();lg.classList.add('in')}
+function logout(){
+ clearInterval(tm);fails=0;locked=false;busy=0;
+ const h=$('#v-home');h.classList.remove('intro','intro2');h.classList.add('pre');h.scrollTop=0;
+ lg.classList.remove('out','in','re');lg.style.display='';lg.scrollTop=0;drawLogin();
+ void lg.offsetWidth;lg.classList.add('re');requestAnimationFrame(()=>lg.classList.add('in'));
+}
 drawLogin();
-return {show};
+return {show,logout};
 })();
 (()=>{const s=$('#spl');if(!s)return;$('#v-home').classList.add('pre');const v=s.querySelector('video'),cv=s.querySelector('canvas');let done=0,draw=null;
 const fb=()=>{v.style.cssText='position:static;width:210px;height:210px;opacity:1;mix-blend-mode:lighten';cv.style.display='none';s.style.placeItems='center'};
