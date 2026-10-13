@@ -391,6 +391,37 @@ button.pc{display:block;width:100%}
 #v-home.intro2>:nth-child(n+3){animation:hrise .65s cubic-bezier(.22,.8,.2,1) .5s both}
 #v-home.intro2>:nth-child(n+4){animation-delay:.58s}#v-home.intro2>:nth-child(n+5){animation-delay:.66s}#v-home.intro2>:nth-child(n+6){animation-delay:.74s}#v-home.intro2>:nth-child(n+7){animation-delay:.82s}
 @media (prefers-reduced-motion:reduce){#lg.in .lgi,#lg.in .lgh,#v-home.intro2 *{animation:none!important}#lg:not(.in) .lgi{opacity:1}}
+#lg .lgcol{width:100%}
+#lg .lgfe{font-size:12px;line-height:16px;color:var(--er);margin-top:6px}
+#lg .lgfe:empty{display:none}
+#lg .lgfld.er{border-color:var(--er)}
+#lg .lgfld .pf{padding:20px 0 0 12px;font-size:13px;line-height:18px;font-weight:500;color:#000;opacity:0;transition:opacity .15s}
+#lg .lgfld.phn:focus-within .pf,#lg .lgfld.phn.v .pf{opacity:1}
+#lg .lgfld.phn input{padding-left:6px}
+#lg .lgh2{font-size:12px;line-height:16px;color:var(--mut)}#lg .lgh2.er{color:var(--er)}
+#lg .lgbt.sc,#lg .lgbt.sc:not(:disabled){background:#fff;color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand);margin-top:12px}
+#lg .lgn.ok{background:var(--okbg)}#lg .lgn.ok svg{color:var(--ok)}#lg .lgn.ok p{color:#1d5a3a}
+#lg .lgill{display:block;margin:12px auto 16px}
+#lg .lgx.st{margin-top:32px}
+#lg .lgmore{align-self:center;margin-top:20px;padding:6px}
+#lg .lgft{margin-top:auto;padding-top:32px;display:flex;flex-direction:column;gap:8px;font-size:12px;line-height:16px;color:var(--mut)}
+#lg .lgft div{display:flex;flex-wrap:wrap;gap:4px 16px}
+#lg .lgft button{color:var(--brand);font-size:12px;line-height:16px;padding:2px 0}
+#lg .lgm .im{display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:16px;color:var(--ink);text-align:left;color:#393f4d}
+#lg .lgm .im svg{flex:none;color:var(--brand)}
+#lgsh{position:absolute;inset:0;z-index:70;background:rgba(10,10,30,.45);opacity:0;pointer-events:none;transition:opacity .25s}
+#lgsh.on{opacity:1;pointer-events:auto}
+#lgsh .s{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:16px 16px 0 0;padding:20px 16px calc(env(safe-area-inset-bottom,0px) + 28px);transform:translateY(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;gap:16px;color:var(--ink)}
+#lgsh.on .s{transform:none}
+#lgsh .hd{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#lgsh h2{font-size:20px;line-height:26px;font-weight:500;color:#000}
+#lgsh .hd button{flex:none;width:32px;height:32px;display:grid;place-items:center;color:#000;margin:-4px -6px 0 0}
+#lgsh .sub{font-size:14px;line-height:20px}
+#lgsh .r{display:flex;align-items:center;gap:12px}
+#lgsh .t{flex:none;width:37px;height:37px;border-radius:12px;background:#f9fafc;display:grid;place-items:center;color:var(--brand)}
+#lgsh small{display:block;font-size:12px;line-height:16px;color:var(--mut)}
+#lgsh a{display:block;font-size:14px;line-height:20px;font-weight:500;color:var(--ink);text-decoration:none}
+#lgsh .lgbt{display:flex;align-items:center;justify-content:center;height:48px;width:100%;border-radius:16px;font-size:14px;font-weight:500;background:#fff;color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand)}
 /* nav + fab + overlays */
 .nav{position:absolute;left:0;right:0;bottom:0;height:88px;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -1px 0 var(--ln),0 -6px 20px rgba(30,20,80,.06);display:flex;padding:10px 6px 0;z-index:5;transition:transform .25s}
 .nav.off{transform:translateY(100%)}
@@ -1174,54 +1205,96 @@ const I={
  eyeoff:sv('<path d="M10.1 6.2A9.6 9.6 0 0 1 12 6c3.9 0 7.1 2.4 9 6-.7 1.3-1.5 2.4-2.5 3.3M6.6 7.7C5.2 8.7 4 10.2 3 12c1.9 3.6 5.1 6 9 6 1.5 0 2.9-.4 4.1-1"/><path d="M9.9 9.9a3.5 3.5 0 0 0 4.2 4.2M3 3l18 18"/>'),
  back:sv('<path d="M15 5l-7 7 7 7"/>'),
  phone:sv('<path d="M21 16.9v2.6a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.1 3.7 2 2 0 0 1 3.1 1.5h2.6a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L6.7 9.4a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z" transform="translate(1 1)"/>',20),
+ call:sv('<path d="M21 16.9v2.6a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 1.1 3.7 2 2 0 0 1 3.1 1.5h2.6a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L6.7 9.4a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z" transform="translate(1 1)"/>',18),
+ mail:sv('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',18),
+ chat:sv('<path d="M21 12a8 8 0 0 1-11.8 7L4 20l1.1-4.6A8 8 0 1 1 21 12Z"/>',18),
+ x:sv('<path d="M6 6l12 12M18 6L6 18"/>',22),
  lang:sv('<path d="M3 5h9M7.5 3v2M5 5c.5 3 2.5 5.5 5.5 7M11 5c-.5 3-2.5 5.5-6 7.5"/><path d="M12 21l4-9 4 9M13.4 18h5.2"/>',20),
- info:'<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M8 7.2v3.8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.9" r=".95" fill="#fff"/></svg>'
+ info:'<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M8 7.2v3.8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.9" r=".95" fill="#fff"/></svg>',
+ ok:'<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.2" fill="currentColor"/><path d="M4.8 8.2l2.2 2.2 4.2-4.4" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 };
-let fails=0,locked=false,tries=3,tm=0,sec=0,step='login',busy=0;
-const head=`<div class="lgh">${LGLOGO}<div class="lgr"><button class="lgl" type="button" data-act="soon">${I.lang}<span>العربية</span></button><button class="lgp" type="button" data-act="soon" aria-label="Contact us">${I.phone}<i></i></button></div></div>`;
-lg.innerHTML=sb()+`<div class="lgw">${head}<div id="lgx"></div></div>`;
-const X=$('#lgx',lg);
-const ban=(t,k)=>{const b=$('#lgb',lg);if(b)b.innerHTML=t?`<div class="lgn ${k}" role="alert">${I.info}<p>${t}</p></div>`:''};
+const CLIP=x=>`<svg class="lgill" width="220" height="160" viewBox="0 0 200 150" fill="none" aria-hidden="true"><ellipse cx="100" cy="140" rx="58" ry="5" fill="#f1eefc"/><rect x="106" y="30" width="46" height="102" rx="4" fill="#e9e3fd"/><rect x="62" y="26" width="76" height="106" rx="6" fill="#fff" stroke="#cfc7f2" stroke-width="1.5"/><rect x="86" y="17" width="28" height="14" rx="4" fill="#fff" stroke="#cfc7f2" stroke-width="1.5"/><circle cx="100" cy="22" r="3" fill="#cfc7f2"/>${[46,68,90].map(y=>`<rect x="72" y="${y}" width="56" height="14" rx="3" fill="#e6e0fb"/><rect x="76" y="${y+4}" width="26" height="2.5" rx="1.2" fill="#fff"/>`).join('')}${x}</svg>`;
+const MAG='<circle cx="68" cy="96" r="22" fill="#fff" fill-opacity=".6" stroke="#6b47f5" stroke-width="3"/><path d="M52 112L36 128" stroke="#6b47f5" stroke-width="6" stroke-linecap="round"/>';
+const BADGE='<circle cx="136" cy="38" r="16" fill="#6b47f5"/><path d="M136 30v10" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/><circle cx="136" cy="46" r="2" fill="#fff"/>';
+const DONE='<svg class="lgill" width="96" height="96" viewBox="0 0 96 96" fill="none" aria-hidden="true"><circle cx="48" cy="48" r="46" fill="#f1f9f5"/><circle cx="48" cy="48" r="30" fill="#329a64"/><path d="M36 48.5l8.5 8.5L61 40" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const RULES='Your password must be at least 8 characters long and include at least one uppercase letter (A–Z), one digit (0–9), and one special character.';
+const OKPW=/^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/,EM=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const OTXT={mobile:'Enter the OTP sent to your registered mobile number +966XXXXXXX34',email:'Enter the OTP sent to your registered email address a****@gmail.com',both:'Enter the OTP sent to your registered mobile number +966XXXXXXX34 & email address a****@gmail.com'};
+let fails=0,locked=false,lockT=0,tm=0,LT=0,sec=0,step='login',busy=0;
+const head=`<div class="lgh">${LGLOGO}<div class="lgr"><button class="lgl" type="button" data-act="soon">${I.lang}<span>العربية</span></button><button class="lgp" type="button" data-lg="sup" aria-label="Contact support">${I.phone}<i></i></button></div></div>`;
+lg.innerHTML=sb()+`<div class="lgw">${head}<div id="lgx"></div><div id="lgf"></div></div>`;
+const X=$('#lgx',lg),FT=$('#lgf',lg);
+const FOOT='<div class="lgft"><span>Copyright © Tawuniya 2026, all rights reserved</span><div><button type="button" data-act="soon">Terms and Conditions</button><button type="button" data-act="soon">Privacy Policy</button><button type="button" data-act="soon">Cookie Policy</button></div></div>';
+const nb=(t,k)=>t?`<div class="lgn ${k}" role="alert">${k==='ok'?I.ok:I.info}<p>${t}</p></div>`:'';
+const ban=(t,k)=>{const b=$('#lgb',X);if(b)b.innerHTML=nb(t,k)};
+const scr=(h,c)=>{clearInterval(tm);clearInterval(LT);X.className='lgx '+(c||'');X.innerHTML=h;FT.innerHTML='';lg.scrollTop=0};
+const fh=(h,p,b)=>`<div class="lgfh lgi">${b?`<button class="lgback" type="button" data-b>${I.back}<span>Back</span></button>`:''}<h1${b?' style="margin-top:0"':''}>${h}</h1><p>${p}</p><div class="lgb" id="lgb"></div></div>`;
+const fld=(id,l,o={})=>`<div class="lgcol"><div class="lgfld ${o.c||''}" id="f_${id}">${o.pre?`<span class="pf">${o.pre}</span>`:''}<label for="${id}">${l}</label><input id="${id}" ${o.a||''}>${o.eye?`<button class="lge" type="button" data-eye="${id}" aria-label="Show password">${I.eye}</button>`:''}</div><p class="lgfe" id="fe_${id}"></p></div>`;
+const fe=(id,t)=>{$('#fe_'+id,X).textContent=t||'';$('#f_'+id,X).classList.toggle('er',!!t)};
+const wire=(ids,btn,ok)=>{const els=ids.map(i=>$('#'+i,X));
+ const upd=()=>{els.forEach(e=>e.parentNode.classList.toggle('v',!!e.value));btn.disabled=!!(busy||(ok&&!ok())||!els.every(e=>e.value.trim()))};
+ els.forEach((e,i)=>{e.addEventListener('input',()=>{fe(e.id,'');const h=$('#lgh2',X);h&&h.classList.remove('er');upd()});
+  e.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();if(els[i+1])els[i+1].focus({preventScroll:true});else if(!btn.disabled)btn.click()}})});
+ $$('[data-eye]',X).forEach(b=>b.addEventListener('click',()=>{const e=$('#'+b.dataset.eye,X),h=e.type==='password';e.type=h?'text':'password';b.innerHTML=h?I.eyeoff:I.eye;b.setAttribute('aria-label',h?'Hide password':'Show password');e.focus({preventScroll:true})}));
+ upd();return upd};
+const work=(btn,lbl,fn,upd)=>{const t=btn.textContent;busy=1;btn.disabled=true;btn.textContent=lbl;document.activeElement&&document.activeElement.blur&&document.activeElement.blur();setTimeout(()=>{busy=0;btn.textContent=t;fn();upd&&upd()},550)};
+const back=f=>{const b=$('[data-b]',X);if(b)b.addEventListener('click',f)};
 
-function drawLogin(keepBanner){
- clearInterval(tm);step='login';
- X.className='lgx';
- X.innerHTML=`<div class="lgfh lgi"><h1>Login</h1><p>Sign in using your credentials.</p><div class="lgb" id="lgb"></div></div>
- <div class="lgfs lgi">
-  <div class="lgg"><div class="lgfld" id="fu"><label for="lgu">Username</label><input id="lgu" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next"></div><button class="lgk" type="button" data-act="soon">Forgot username?</button></div>
-  <div class="lgg"><div class="lgfld" id="fp"><label for="lgp">Password</label><input id="lgp" type="password" autocomplete="current-password" enterkeyhint="go"><button class="lge" type="button" id="lge" aria-label="Show password">${I.eye}</button></div><button class="lgk" type="button" data-act="soon">Forgot password?</button></div>
- </div>
- <button class="lgbt lgi" id="lgs" type="button" disabled>Login</button>`;
+/* ---------- Login ---------- */
+const LOCKTXT='Login is temporarily locked due to 3 unsuccessful login attempts. Please try again in 5 minutes.';
+function drawLogin(b){
+ step='login';
+ scr(fh('Login','Sign in using your credentials.')+`<div class="lgfs lgi">
+  <div class="lgg">${fld('lgu','Username',{a:'autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next"'})}<button class="lgk" type="button" data-lg="fu">Forgot username?</button></div>
+  <div class="lgg">${fld('lgp','Password',{a:'type="password" autocomplete="current-password" enterkeyhint="go"',eye:1})}<button class="lgk" type="button" data-lg="fp">Forgot password?</button></div>
+ </div><button class="lgbt lgi" id="lgs" type="button" disabled>Login</button><button class="lgk lgmore lgi" type="button" data-lg="more">Know More About Tawuniya Amaal</button>`);
+ FT.innerHTML=FOOT;
  const u=$('#lgu',X),p=$('#lgp',X),btn=$('#lgs',X);
- const upd=()=>{$('#fu',X).classList.toggle('v',!!u.value);$('#fp',X).classList.toggle('v',!!p.value);btn.disabled=locked||busy||!(u.value.trim()&&p.value)};
- u.addEventListener('input',upd);p.addEventListener('input',upd);
- u.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();p.focus({preventScroll:true})}});
- p.addEventListener('keydown',e=>{if(e.key==='Enter'&&!btn.disabled){e.preventDefault();btn.click()}});
- $('#lge',X).addEventListener('click',()=>{const h=p.type==='password';p.type=h?'text':'password';$('#lge',X).innerHTML=h?I.eyeoff:I.eye;$('#lge',X).setAttribute('aria-label',h?'Hide password':'Show password');p.focus({preventScroll:true})});
+ const upd=wire(['lgu','lgp'],btn,()=>!locked);
+ if(locked)ban(LOCKTXT,'er');else if(b)ban(b.t,b.k);
  btn.addEventListener('click',()=>{
-  if(btn.disabled)return;busy=1;btn.disabled=true;btn.textContent='Signing in…';u.blur();p.blur();
-  setTimeout(()=>{busy=0;btn.textContent='Login';
-   if(p.value.toLowerCase()==='wrong'){
-    fails++;
-    if(fails>=3){locked=true;ban('Your account is temporarily locked after too many failed attempts. Try again in 15 minutes, or reset your credentials now.','er')}
+  if(btn.disabled)return;const user=u.value.trim();
+  const bad=p.value.toLowerCase()==='wrong'||user.toLowerCase()==='ahmed.hh';
+  work(btn,'Signing in…',()=>{
+   if(bad){fails++;
+    if(fails>=3){locked=true;clearTimeout(lockT);lockT=setTimeout(()=>{locked=false;fails=0;if(step==='login')drawLogin()},300000);ban(LOCKTXT,'er')}
     else if(fails===2)ban('You have 1 attempt left before your account is temporarily locked. Try again, or reset your credentials now to avoid the wait.','wa');
-    else ban('Incorrect username or password. You have 2 attempts left.','er');
-    upd();
-   }else{fails=0;drawOtp(u.value.trim())}
-  },550)});
- if(locked)ban('Your account is temporarily locked after too many failed attempts. Try again in 15 minutes, or reset your credentials now.','er');
- upd();
+    else ban('The username or password you entered is incorrect. Please try again.','er');
+   }else{fails=0;afterCreds(user)}
+  },upd)});
+}
+function afterCreds(user){
+ const k=user.toLowerCase();
+ if(k==='nopolicy')return stateScr('np',user);
+ if(k==='deactivated')return stateScr('de',user);
+ if(k==='smsfail')return drawSlow(user);
+ const ch=k==='email'?'email':k==='both'?'both':'mobile';
+ drawOtp({user,ch,dual:ch==='mobile'||ch==='email'&&k==='email',back:()=>drawLogin(),next:()=>/^(new|first)/.test(k)?drawPw('setup',user):done()});
+}
+function stateScr(k,user){
+ step='state';const np=k==='np';
+ scr(`<div class="lgi">${CLIP(np?MAG:BADGE)}</div>`+fh(np?'No Active Policy':'Account Deactivated',np?'Unable to login as your account has no active policies, or your existing policies are suspended.':`Your Account with the username ${esc(user)} has been deactivated by the Admin.`)+`<button class="lgbt lgi" type="button" data-lg="sup" style="margin-top:28px">Contact Support</button><button class="lgbt sc lgi" type="button" data-lg="login">Back to Login</button>`,'st');
+}
+function drawSlow(user){
+ step='slow';
+ scr(fh('Let’s slow down for a moment.','There’s a problem sending verification code to your phone. We can email it to you instead.')+`<button class="lgbt lgi" id="lgse" type="button" style="margin-top:28px">Send to Email</button><button class="lgbt sc lgi" type="button" data-lg="login">Back to Login</button>`);
+ $('#lgse',X).addEventListener('click',()=>drawOtp({user,ch:'email',dual:false,back:()=>drawLogin(),next:done}));
 }
 
-function drawOtp(){
- step='otp';tries=3;X.className='lgx otp';
- X.innerHTML=`<div class="lgfh lgi"><button class="lgback" type="button" id="lgbk">${I.back}<span>Back</span></button><h1 style="margin-top:0">Verify Account</h1><p>Enter the OTP sent to your registered mobile number +966XXXXXXX34</p></div>
- <div class="lgo lgi" id="lgo">${[0,1,2,3].map(i=>`<input class="lgc" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="${i?'off':'one-time-code'}" aria-label="Digit ${i+1} of 4">`).join('')}</div>
- <div class="lgm lgi"><p class="at" id="lgat">Attempts remaining: 3</p><button class="lgbt" id="lgv" type="button" disabled>Verify</button>
-  <div class="lgrs"><p class="at" id="lgt"></p><div class="lgrw"><div>Didn’t receive code? <button type="button" id="lgre">Resend</button></div><div>or you can <button type="button" id="lgem">receive code on Email</button></div></div></div></div>`;
- const cs=$$('.lgc',X),v=$('#lgv',X),box=$('#lgo',X);
+/* ---------- OTP ---------- */
+function drawOtp(F){
+ step='otp';F.tries=3;
+ scr(fh('Verify Account',OTXT[F.ch],1)+`<div class="lgo lgi" id="lgo">${[0,1,2,3].map(i=>`<input class="lgc" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="${i?'off':'one-time-code'}" aria-label="Digit ${i+1} of 4">`).join('')}</div>
+ <div class="lgm lgi"><div id="lgim"></div><p class="at" id="lgat">Attempts remaining: 3</p><button class="lgbt" id="lgv" type="button" disabled>Verify</button>
+ <div class="lgrs" id="lgrs"><p class="at" id="lgt"></p><div class="lgrw" id="lgrw"></div></div></div>`,'otp');
+ const cs=$$('.lgc',X),v=$('#lgv',X),box=$('#lgo',X),at=$('#lgat',X),rw=$('#lgrw',X);
  const val=()=>cs.map(c=>c.value).join('');
- const upd=()=>{v.disabled=val().length<4;box.classList.remove('bad');const a=$('#lgat',X);if(a.dataset.e){a.className='at';a.textContent='Attempts remaining: '+tries;a.dataset.e=''}};
+ const upd=()=>{v.disabled=F.locked||val().length<4;box.classList.remove('bad')};
+ const mm=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+ const links=()=>{rw.innerHTML=`<div>Didn’t receive code? <button type="button" data-r="same">Resend</button></div>`+(F.dual?`<div>or you can <button type="button" data-r="alt">receive code on ${F.ch==='email'?'Mobile':'Email'}</button></div>`:'');clock()};
+ const clock=()=>{const t=$('#lgt',X);if(!t)return;t.textContent='Resend code in '+mm(sec);$$('button',rw).forEach(b=>b.classList.toggle('on',!sec))};
+ const start=()=>{clearInterval(tm);sec=59;clock();tm=setInterval(()=>{sec=Math.max(0,sec-1);clock();if(!sec)clearInterval(tm)},1000)};
  cs.forEach((c,i)=>{
   c.addEventListener('input',()=>{c.value=c.value.replace(/\D/g,'').slice(-1);if(c.value&&cs[i+1])cs[i+1].focus({preventScroll:true});upd()});
   c.addEventListener('keydown',e=>{
@@ -1231,31 +1304,93 @@ function drawOtp(){
   c.addEventListener('focus',()=>c.select());
   c.addEventListener('paste',e=>{const t=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,4);if(!t)return;e.preventDefault();cs.forEach((x,k)=>x.value=t[k]||'');(cs[Math.min(t.length,3)]).focus({preventScroll:true});upd()});
  });
- const clock=()=>{const t=$('#lgt',X),r=$('#lgre',X),m=$('#lgem',X);if(!t)return;t.textContent='Resend code in 00:'+String(sec).padStart(2,'0');r.classList.toggle('on',sec===0);m.classList.toggle('on',sec===0)};
- const start=()=>{clearInterval(tm);sec=59;clock();tm=setInterval(()=>{sec=Math.max(0,sec-1);clock();if(!sec)clearInterval(tm)},1000)};
- start();
- $('#lgre',X).addEventListener('click',()=>{if(sec)return;cs.forEach(c=>c.value='');upd();start();cs[0].focus({preventScroll:true});toast('A new code has been sent')});
- $('#lgem',X).addEventListener('click',()=>{if(sec)return;start();toast('Code sent to your registered email')});
- $('#lgbk',X).addEventListener('click',()=>{drawLogin()});
+ links();start();
+ rw.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||sec||F.locked)return;
+  let m='The OTP has been resent.';
+  if(b.dataset.r==='alt'){F.ch=F.ch==='email'?'mobile':'email';$('.lgfh p',X).textContent=OTXT[F.ch];m=F.ch==='email'?'The OTP has been resent to your registered email address a****@gmail.com.':'The OTP has been resent to your registered mobile number +966****4372.';links()}
+  cs.forEach(c=>c.value='');ban('');upd();$('#lgim',X).innerHTML=`<p class="im">${I.info}<span>${m}</span></p>`;start();cs[0].focus({preventScroll:true})});
+ const lockOtp=()=>{F.locked=true;ban('Verification has been temporarily locked after 3 unsuccessful attempts. Please try again in 5 minutes.','er');at.className='at er';at.textContent='Attempts remaining: 0';cs.forEach(c=>{c.value='';c.disabled=true});$('#lgrs',X).style.display='none';$('#lgim',X).innerHTML='';
+  let left=300;v.disabled=true;v.textContent='Retry in '+mm(left);clearInterval(LT);
+  LT=setInterval(()=>{left--;v.textContent='Retry in '+mm(left);if(left<=0){clearInterval(LT);F.locked=false;F.tries=3;cs.forEach(c=>c.disabled=false);ban('');at.className='at';at.textContent='Attempts remaining: 3';v.textContent='Verify';v.disabled=true;$('#lgrs',X).style.display='';start();cs[0].focus({preventScroll:true})}},1000)};
+ back(()=>F.back());
  v.addEventListener('click',()=>{
-  if(v.disabled)return;
-  if(val()==='0000'){
-   tries--;
-   if(tries<=0){locked=true;drawLogin();return}
-   box.classList.add('bad');const a=$('#lgat',X);a.className='at er';a.dataset.e=1;a.textContent='Incorrect code. Attempts remaining: '+tries;v.disabled=true;cs.forEach(c=>c.value='');cs[0].focus({preventScroll:true});
-  }else done();
+  if(v.disabled)return;const c=val();
+  if(c==='1111'||c==='0000'){
+   const exp=c==='0000';F.tries--;cs.forEach(x=>x.value='');
+   if(F.tries<=0){lockOtp();return}
+   box.classList.toggle('bad',!exp);ban(exp?'The verification code has expired. Request a new code.':'The verification code is incorrect.','er');$('#lgim',X).innerHTML='';
+   at.textContent='Attempts remaining: '+F.tries;v.disabled=true;cs[0].focus({preventScroll:true});
+  }else{clearInterval(tm);F.next()}
  });
 }
 
+/* ---------- Password setup / reset ---------- */
+function drawPw(mode,user){
+ step='pw';const st=mode==='setup';
+ scr(fh(st?'Setup Password':'Reset Password',st?`Set your own password to secure your Tawuniya Amaal account, ${esc(user)}.`:`Create a new password to secure your Tawuniya Amaal account ${esc(user)}`)+`<div class="lgfs lgi">${fld('pw1','New Password',{a:'type="password" autocomplete="new-password" enterkeyhint="next"',eye:1})}${fld('pw2','Confirm Password',{a:'type="password" autocomplete="new-password" enterkeyhint="go"',eye:1})}<p class="lgh2" id="lgh2">${RULES}</p></div><button class="lgbt lgi" id="lgs" type="button" disabled>${st?'Create Password':'Reset Password'}</button>`);
+ const a=$('#pw1',X),b=$('#pw2',X),btn=$('#lgs',X),upd=wire(['pw1','pw2'],btn);
+ btn.addEventListener('click',()=>{if(btn.disabled)return;
+  work(btn,'Saving…',()=>{
+   if(!OKPW.test(a.value)){ban('Password doesn’t meet the requirements below:','er');$('#lgh2',X).classList.add('er');$('#f_pw1',X).classList.add('er')}
+   else if(a.value!==b.value){ban(st?'Passwords do not match.':'Passwords don’t match','er');$('#f_pw2',X).classList.add('er')}
+   else{fails=0;locked=false;clearTimeout(lockT);drawLogin({t:st?'Your password has been successfully updated. Please sign in again.':'Your password has been successfully reset. You can now log in with your new password.',k:'ok'})}
+  },upd)});
+}
+
+/* ---------- Forgot password ---------- */
+function drawFP(){
+ step='fp';
+ scr(fh('Forgot Password?','Enter your Tawuniya account Username',1)+`<div class="lgfs lgi"><div class="lgg">${fld('fpu','Username',{a:'autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="go"'})}<button class="lgk" type="button" data-lg="fu">Forgot username?</button></div></div><button class="lgbt lgi" id="lgs" type="button" disabled>Confirm</button>`,'otp');
+ const u=$('#fpu',X),btn=$('#lgs',X),upd=wire(['fpu'],btn);back(()=>drawLogin());
+ btn.addEventListener('click',()=>{if(btn.disabled)return;const user=u.value.trim();ban('');
+  work(btn,'Checking…',()=>{
+   if(user.toLowerCase()==='ahmed.hh'){ban('The username you entered does not exist. Please check it and try again.','er')}
+   else drawOtp({user,ch:'mobile',dual:true,back:drawFP,next:()=>drawPw('reset',user)});
+  },upd)});
+}
+
+/* ---------- Forgot username ---------- */
+function drawFU(){
+ step='fu';
+ scr(fh('Forgot Username?','Enter your registered mobile number and email. An OTP will be sent to your preferred mode of contact.',1)+`<div class="lgfs lgi">${fld('fuph','Phone Number',{pre:'+966',c:'phn',a:'type="tel" inputmode="numeric" autocomplete="tel-national" enterkeyhint="next"'})}${fld('fuem','Email',{a:'type="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="go"'})}</div><button class="lgbt lgi" id="lgs" type="button" disabled>Get OTP</button>`,'otp');
+ const pn=$('#fuph',X),em=$('#fuem',X),btn=$('#lgs',X),upd=wire(['fuph','fuem'],btn);back(()=>drawLogin());
+ btn.addEventListener('click',()=>{if(btn.disabled)return;ban('');fe('fuph','');fe('fuem','');
+  const d=pn.value.replace(/\D/g,''),m=em.value.trim();let bad=0;
+  if(!/^\d{9}$/.test(d)){fe('fuph','Invalid mobile number. Please check the number and try again.');bad=1}
+  if(!EM.test(m)){fe('fuem','This doesn’t look like a valid email. Please check for a typo, like a missing @ or .com');bad=1}
+  if(bad)return;
+  work(btn,'Checking…',()=>{
+   if(/wrong/i.test(m))ban('We couldn’t verify the details you entered. Please check and try again.','er');
+   else drawOtp({user:'',ch:'mobile',dual:true,back:drawFU,next:drawSent});
+  },upd)});
+}
+function drawSent(){
+ step='sent';
+ scr(`<div class="lgi">${DONE}</div>`+fh('We’ve Sent Your Username','Your username has been sent to your registered mobile number.')+`<button class="lgbt lgi" type="button" data-lg="login" style="margin-top:28px">Back to Login</button>`,'st');
+}
+
+/* ---------- Support sheet ---------- */
+const SH=document.createElement('div');SH.id='lgsh';
+const row=(i,l,v,h)=>`<div class="r"><span class="t">${i}</span><div><small>${l}</small><a href="${h}">${v}</a></div></div>`;
+SH.innerHTML=`<div class="s" role="dialog" aria-modal="true" aria-label="Contact Our Support Team"><div class="hd"><h2>Contact Our Support Team</h2><button type="button" data-lg="shut" aria-label="Close">${I.x}</button></div><p class="sub">We're here 24 hours a day, 7 days a week, to help you and provide full support</p>
+${row(I.call,'Toll Free Line','800 434 0044','tel:8004340044')}${row(I.mail,'Corporate after-sales services','EO_KA_Corp@tawuniya.com','mailto:EO_KA_Corp@tawuniya.com')}${row(I.chat,'Whatsapp','9200 19990','tel:920019990')}${row(I.mail,'SME after-sales services','EO_SME_Retail@tawuniya.com','mailto:EO_SME_Retail@tawuniya.com')}
+<button class="lgbt sc" type="button" data-act="soon" style="margin-top:8px">Raise a Support Ticket</button></div>`;
+lg.after(SH);
+const openSup=()=>{document.activeElement&&document.activeElement.blur&&document.activeElement.blur();SH.classList.add('on')},shutSup=()=>SH.classList.remove('on');
+SH.addEventListener('click',e=>{if(e.target===SH)shutSup()});
+lg.addEventListener('click',e=>{const t=e.target.closest('[data-lg]');if(!t)return;
+ ({sup:openSup,login:()=>drawLogin(),fu:drawFU,fp:drawFP,more:()=>soon()}[t.dataset.lg]||(()=>{}))()});
+SH.addEventListener('click',e=>{if(e.target.closest('[data-lg=shut]'))shutSup()});
+
 function done(){
- clearInterval(tm);document.activeElement&&document.activeElement.blur&&document.activeElement.blur();
+ clearInterval(tm);clearInterval(LT);document.activeElement&&document.activeElement.blur&&document.activeElement.blur();
  const h=$('#v-home');lg.classList.add('out');
  setTimeout(()=>{h.classList.add('intro2');h.classList.remove('pre');fabSeq();setTimeout(()=>h.classList.remove('intro2'),2000)},120);
  setTimeout(()=>{lg.style.display='none';lg.classList.remove('out')},520);
 }
 function show(){drawLogin();lg.classList.add('in')}
 function logout(){
- clearInterval(tm);fails=0;locked=false;busy=0;
+ clearInterval(tm);clearInterval(LT);clearTimeout(lockT);fails=0;locked=false;busy=0;shutSup();
  const h=$('#v-home');h.classList.remove('intro','intro2');h.classList.add('pre');h.scrollTop=0;
  lg.classList.remove('out','in','re');lg.style.display='';lg.scrollTop=0;drawLogin();
  void lg.offsetWidth;lg.classList.add('re');requestAnimationFrame(()=>lg.classList.add('in'));
