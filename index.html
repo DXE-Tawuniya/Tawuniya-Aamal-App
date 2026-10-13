@@ -388,7 +388,34 @@ button.pc{display:block;width:100%}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 @media (max-width:499px){input,textarea,select{font-size:16px!important}}
-b,strong,th,h1,h2,h3,h4,h5,h6{font-weight:400}#v-policies *,#v-requests *,#v-performance *,#v-more *{font-weight:500}/* Home typography per Figma 1154:4866 */
+b,strong,th,h1,h2,h3,h4,h5,h6{font-weight:400}/* Type system (from Figma Home + Requests): page title 18/500 · section title 14/500 · card title 12/500 · body 12/400 · meta 10/400 · values 12-16/500 · chips 12 (active 500) · status tags 10/400 */
+.view h1,.view .nh h2{font-size:18px;line-height:24px;font-weight:500}
+.view h3{font-size:14px;line-height:18px;font-weight:500}
+.view .sec.qs .sh h3{font-size:16px;line-height:normal}
+.view h4{font-size:12px;line-height:16px;font-weight:500}
+.view p{font-weight:400}
+.view small{font-weight:400}
+.view b{font-weight:500}
+.view .chips button,.view .mini button{font-size:12px;line-height:16px;font-weight:400}
+.view .chips button.on,.view .mini button.on{font-weight:500}
+.view .link{font-size:12px;line-height:16px;font-weight:400}
+.view .tg{font-size:10px;line-height:12px;font-weight:400;display:inline-flex;align-items:center;height:20px;padding:0 8px}
+.view .tg.c,.view .tg.n{font-weight:500;font-size:10px}
+.view .met b{font-size:16px;line-height:16px}.view .met small{font-size:10px;line-height:12px}
+.view .pc small{font-size:12px;line-height:16px;font-weight:500}.view .pc b{font-size:14px;line-height:18px}
+.view .pc .cat{font-size:12px;line-height:20px;font-weight:400}
+.view .bo .sh h3,.view .pcard .sh h3{font-size:14px;line-height:18px;font-weight:500}
+.view small:not([class]){font-size:12px;line-height:16px}
+.view .met small{font-size:10px;line-height:12px}
+.view .big{font-weight:500}
+#v-more .menu span,#v-more button>span{font-weight:500}
+#v-requests .it p,#v-requests h4+p{font-size:10px;line-height:12px}
+#v-requests button.v,#v-requests button.a{font-size:12px;font-weight:500}
+#v-performance p{font-size:10px;line-height:12px}
+#v-more p.foot{font-size:10px;line-height:12px;font-weight:400}
+#v-more h3{font-size:16px;line-height:22px}
+#v-more small{font-size:12px}
+/* Home typography per Figma 1154:4866 */
 #v-home h4+p{margin-top:4px}
 #v-home .hi{font-size:20px;line-height:26px;font-weight:500}
 #v-home .hs{font-size:12px;line-height:16px;font-weight:400}
