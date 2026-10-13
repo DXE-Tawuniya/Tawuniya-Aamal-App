@@ -605,7 +605,7 @@ function renderHome(){
    quick:()=>`<div class="sec lt qs"><div class="sh"><h3>Quick Actions</h3></div><div class="qa">
     <button data-act="members">${QAI.qa_members}<span>Policy Members</span></button><button data-act="endors">${QAI.qa_endors}<span>Endorsements</span></button>
     <button data-act="claims">${QAI.qa_claims}<span>Claims</span></button><button data-act="prov">${QAI.qa_global}<span>Providers Network</span></button>
-    <button data-act="stmts" class="hug">${QAI.qa_cards}<span>Statements</span></button></div></div>`,
+    <button data-act="stmts">${QAI.qa_cards}<span>Statements</span></button></div></div>`,
    cont:()=>`<div class="sec sf"><div class="sh"><h3>Continue Working</h3><button class="link" data-act="cont">View All ${ic('arrow',16)}</button></div><div class="stack">
     ${[1,2].map(()=>`<button class="card res" data-act="soon"><div style="flex:1"><h4>Draft Endorsement - Al Rajhi Trading</h4><div class="bar"><i style="width:60%"></i></div><small>60% complete</small></div>${ic('chev',18)}</button>`).join('')}
     <button class="card res" data-act="soon"><div><h4>Policy #2430 - Member Review</h4><small>Last edited 2h ago</small></div>${ic('chev',18)}</button></div></div>`,
