@@ -316,12 +316,16 @@ button.pc{display:block;width:100%}
 .spl{will-change:height,opacity;inset:0 0 auto 0;height:100%}
 .spl.spl-go{height:var(--H,258px);border-radius:0 0 16px 16px;transition:height .7s cubic-bezier(.65,0,.2,1),border-radius .7s cubic-bezier(.65,0,.2,1),opacity .28s ease .48s;opacity:0;pointer-events:none}
 @keyframes hrise{from{opacity:0;transform:translate3d(0,22px,0)}to{opacity:1;transform:none}}
-#v-home.intro .car{animation:hrise .5s cubic-bezier(.2,.8,.2,1) .22s both}
-#v-home.intro>:nth-child(n+3){animation:hrise .5s cubic-bezier(.2,.8,.2,1) .3s both}
-#v-home.intro>:nth-child(n+4){animation-delay:.36s}
-#v-home.intro>:nth-child(n+5){animation-delay:.42s}
-#v-home.intro>:nth-child(n+6){animation-delay:.48s}
-#v-home.intro>:nth-child(n+7){animation-delay:.54s}
+@keyframes hfade{from{opacity:0}to{opacity:1}}
+#v-home.intro .top{animation:hfade .4s ease .66s both}
+#v-home.intro .hi{animation:hrise .5s cubic-bezier(.2,.8,.2,1) .72s both}
+#v-home.intro .hs{animation:hrise .5s cubic-bezier(.2,.8,.2,1) .78s both}
+#v-home.intro .car{animation:hrise .6s cubic-bezier(.2,.8,.2,1) .98s both}
+#v-home.intro>:nth-child(n+3){animation:hrise .55s cubic-bezier(.2,.8,.2,1) 1.25s both}
+#v-home.intro>:nth-child(n+4){animation-delay:1.33s}
+#v-home.intro>:nth-child(n+5){animation-delay:1.41s}
+#v-home.intro>:nth-child(n+6){animation-delay:1.49s}
+#v-home.intro>:nth-child(n+7){animation-delay:1.57s}
 @media (prefers-reduced-motion:reduce){.spl.spl-go{transition:opacity .3s ease;height:100%}#v-home.intro *{animation:none!important}}
 /* nav + fab + overlays */
 .nav{position:absolute;left:0;right:0;bottom:0;height:88px;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -1px 0 var(--ln),0 -6px 20px rgba(30,20,80,.06);display:flex;padding:10px 6px 0;z-index:5;transition:transform .25s}
@@ -1113,7 +1117,7 @@ const loop=()=>{try{draw()}catch(e){fb();return}if(!v.ended&&!done)v.requestVide
 v.addEventListener('playing',loop,{once:true});
 const H=()=>{const ph=$('#ph'),k=ph.getBoundingClientRect().width/ph.offsetWidth||1,cw=$('.carwrap');
  if(!cw)return 258;const r=cw.getBoundingClientRect(),p=ph.getBoundingClientRect();return Math.round((r.top-p.top+r.height*.78)/k)};
-const finish=(wait=1000)=>{if(done)return;done=1;setTimeout(()=>{s.style.setProperty('--cy',s.offsetHeight/2+'px');s.style.setProperty('--H',H()+'px');v.pause();$('#v-home').classList.add('intro');setTimeout(()=>$('#v-home').classList.remove('intro'),2200);s.classList.add('spl-go');setTimeout(()=>s.remove(),800)},wait)};
+const finish=(wait=1000)=>{if(done)return;done=1;setTimeout(()=>{s.style.setProperty('--cy',s.offsetHeight/2+'px');s.style.setProperty('--H',H()+'px');v.pause();$('#v-home').classList.add('intro');setTimeout(()=>$('#v-home').classList.remove('intro'),3000);s.classList.add('spl-go');setTimeout(()=>s.remove(),800)},wait)};
 v.addEventListener('ended',()=>finish(500));
 v.addEventListener('error',()=>finish(400));
 const p=v.play();if(p&&p.catch)p.catch(()=>finish(400));
