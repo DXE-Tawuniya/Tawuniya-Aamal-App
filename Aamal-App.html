@@ -1114,7 +1114,7 @@ v.addEventListener('playing',loop,{once:true});
 const H=()=>{const ph=$('#ph'),k=ph.getBoundingClientRect().width/ph.offsetWidth||1,cw=$('.carwrap');
  if(!cw)return 258;const r=cw.getBoundingClientRect(),p=ph.getBoundingClientRect();return Math.round((r.top-p.top+r.height*.78)/k)};
 const finish=(wait=1000)=>{if(done)return;done=1;setTimeout(()=>{s.style.setProperty('--Y',-(s.offsetHeight-H())+'px');v.pause();$('#v-home').classList.add('intro');setTimeout(()=>$('#v-home').classList.remove('intro'),2200);s.classList.add('spl-go');setTimeout(()=>s.remove(),800)},wait)};
-v.addEventListener('ended',()=>finish(1000));
+v.addEventListener('ended',()=>finish(500));
 v.addEventListener('error',()=>finish(400));
 const p=v.play();if(p&&p.catch)p.catch(()=>finish(400));
 setTimeout(()=>finish(0),7500);
