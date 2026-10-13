@@ -311,7 +311,7 @@ button.pc{display:block;width:100%}
 .tg.o{background:#fbf6e6;color:#9b7908}
 .spl{position:absolute;inset:0;z-index:100;isolation:isolate;background:#6b47f5;display:grid;place-items:center;overflow:hidden;pointer-events:all}
 .spl video{position:absolute;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
-.spl canvas{position:absolute;left:50%;top:var(--cy,calc(50% - 8px));width:276px;height:276px;margin:-138px 0 0 -138px;display:block;pointer-events:none;transition:opacity .4s ease,transform .7s cubic-bezier(.5,0,.2,1)}
+.spl canvas{position:absolute;left:50%;top:var(--cy,calc(45% - 1px));width:276px;height:276px;margin:-138px 0 0 -138px;display:block;pointer-events:none;transition:opacity .4s ease,transform .7s cubic-bezier(.5,0,.2,1)}
 .spl.spl-go canvas{opacity:0;transform:scale(.92)}
 .spl{will-change:transform;inset:auto;left:0;right:0;top:0;height:calc(100% + 16px);border-radius:0 0 16px 16px;transform:translate3d(0,0,0)}
 .spl.spl-go{transform:translate3d(0,var(--Y,-600px),0);transition:transform .85s cubic-bezier(.6,0,.2,1),opacity .18s linear .78s;opacity:0;pointer-events:none}
@@ -1118,7 +1118,7 @@ const loop=()=>{try{draw()}catch(e){fb();return}if(!v.ended&&!done)v.requestVide
 v.addEventListener('playing',loop,{once:true});
 const H=()=>{const ph=$('#ph'),k=ph.getBoundingClientRect().width/ph.offsetWidth||1,cw=$('.carwrap');
  if(!cw)return 258;const r=cw.getBoundingClientRect(),p=ph.getBoundingClientRect();return Math.round((r.top-p.top+r.height*.78)/k)};
-const finish=(wait=1000)=>{if(done)return;done=1;setTimeout(()=>{s.style.setProperty('--cy',(s.offsetHeight-16)/2+'px');s.style.setProperty('--Y',-(s.offsetHeight-H())+'px');v.pause();$('#v-home').classList.add('intro');setTimeout(()=>$('#v-home').classList.remove('intro','pre'),3200);s.classList.add('spl-go');setTimeout(()=>s.remove(),800)},wait)};
+const finish=(wait=1000)=>{if(done)return;done=1;setTimeout(()=>{s.style.setProperty('--cy',(cv.offsetTop+138)+'px');s.style.setProperty('--Y',-(s.offsetHeight-H())+'px');v.pause();$('#v-home').classList.add('intro');setTimeout(()=>$('#v-home').classList.remove('intro','pre'),3200);s.classList.add('spl-go');setTimeout(()=>s.remove(),800)},wait)};
 v.addEventListener('ended',()=>finish(500));
 v.addEventListener('error',()=>finish(400));
 const p=v.play();if(p&&p.catch)p.catch(()=>finish(400));
