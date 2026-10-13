@@ -254,10 +254,14 @@ button.pc{display:block;width:100%}
 .pmdp .pmx2{flex:none;width:32px;height:32px;display:grid;place-items:center;color:var(--brand)}
 .pmbt{display:flex;gap:12px;margin-top:4px}
 .pmbt button{flex:1;min-height:48px;border:1px solid var(--brand);border-radius:16px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--brand);font-size:13px;line-height:18px;padding:8px 10px;background:#fff}
-.pmp{display:flex;justify-content:center;align-items:center;gap:0;margin-top:20px;font-size:13px;color:var(--blk)}
-.pmp button,.pmp span{height:36px;display:flex;align-items:center;gap:6px;padding:0 10px;border-radius:4px}
-.pmp span.cur{background:var(--brand);color:#fff}
-.pmp button:disabled{opacity:.4}
+.pmp{display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-size:14px;line-height:1.4;color:var(--blk)}
+.pmp>button{height:36px;display:flex;align-items:center;gap:8px;padding:8px 12px 8px 8px;border-radius:4px;color:var(--sub);font-size:14px}
+.pmp>button:last-child{padding:8px 8px 8px 12px}
+.pmp>button:disabled{color:#b3b9c3;opacity:1}
+.pmp .pa{display:inline-flex;width:16px;height:16px}.pmp .pa.l{transform:rotate(180deg)}
+.pmp .pg2{display:flex;align-items:center;gap:8px;height:36px}
+.pmp .cur{height:36px;min-width:36px;padding:0 14px;display:flex;align-items:center;justify-content:center;background:var(--brand);color:#fff;border-radius:4px;font-size:14px}
+.pmp .of{color:#1a1c1f;white-space:nowrap}
 .pmem{padding:32px 16px;text-align:center;color:var(--mut);font-size:13px}
 
 
@@ -813,7 +817,7 @@ function fillMembers(){
   const q=(S.mQ||'').trim().toLowerCase();
   const rows=MEM.map((m,k)=>[m,k]).filter(([m])=>!q||(m.n+m.c+m.i).toLowerCase().includes(q));
   $('#pml').innerHTML=rows.length?rows.map(([m,k])=>{const o=S.mOpen===k;return `<div class="pmc"><div class="pmr">${pmGen(m.g)}<div class="pmb"><h4>${m.n}</h4><div class="pmd"><span>Card Code:<b>${m.c}</b></span><span>ID:<b>${m.i}</b></span></div>${pmTags()}</div><button class="pmx" data-act="mtog" data-v="${k}" aria-expanded="${o}" aria-label="${o?'Collapse':'Expand'} member">${pmi('arrowup',20)}</button></div>${o?pmDetail(m):''}</div>`}).join(''):'<div class="pmem">No members match your search.</div>';
-  $('#pmp').innerHTML=`<button data-act="mpg" data-v="-1" ${S.mPg<=1?'disabled':''}>${ic('back',20)}Prev</button><span class="cur">${S.mPg}</span><span>of 11</span><button data-act="mpg" data-v="1" ${S.mPg>=11?'disabled':''}>Next${ic('arrow',20)}</button>`;
+  $('#pmp').innerHTML=pager('mpg',S.mPg,11);
 }
 function renderMembers(){
   if(S.mOpen===undefined)S.mOpen=1;S.mPg=S.mPg||1;S.mQ='';
@@ -846,7 +850,7 @@ function fillClaims(){
   LV('.cll').innerHTML=pg.length?pg.map(r=>`<div class="clc"><div class="clt"><div><h4>Policy No. ${r.p}</h4><p>${r.e} · ${r.t}</p></div>${clTag(r.s)}</div>
    <div class="clg"><div><small>Request No.</small><b>${r.r}</b></div><div><small>Members / Vehicles</small><b>${r.m}</b></div><div><small>Date Submitted</small><b>${r.d}</b></div><div><small>Last Updated</small><b>${r.u}</b></div></div>
    <div class="clf"><button data-act="soon">View Details${ic('chev',16)}</button></div></div>`).join(''):'<div class="pmem">No '+LST[S.lk].u+' match your filters.</div>';
-  LV('.clp').innerHTML=`<button data-act="cpg" data-v="-1" ${S.cPg<=1?'disabled':''}>${ic('back',20)}Prev</button><span class="cur">${S.cPg}</span><span>of ${pages}</span><button data-act="cpg" data-v="1" ${S.cPg>=pages?'disabled':''}>Next${ic('arrow',20)}</button>`;
+  LV('.clp').innerHTML=pager('cpg',S.cPg,pages);
 }
 function renderClaims(k){
   S.lk=k||'claims';const L=LST[S.lk];
@@ -939,6 +943,9 @@ $('#ph').addEventListener('scroll',e=>{const v=e.target;if(!v.classList||!v.clas
   fabLast=t;fabT.push(setTimeout(()=>{if($('#fab').dataset.s==='small'&&fabLast>10)setFab('hidden')},2500))},true);
 
 
+/* mobile pagination (Figma "Pagination v2.0": Use=Mobile) */
+const pager=(act,cur,pages)=>`<button data-act="${act}" data-v="-1" ${cur<=1?'disabled':''} aria-label="Previous page"><span class="pa l">${ic('chev',16)}</span>Prev</button><div class="pg2"><span class="cur" aria-current="page">${cur}</span><span class="of">of ${pages}</span></div><button data-act="${act}" data-v="1" ${cur>=pages?'disabled':''} aria-label="Next page">Next<span class="pa">${ic('chev',16)}</span></button>`;
+
 /* ---------- Statements: portal "Statement of Account" flow converted to mobile ---------- */
 const SMON=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 const MFULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -975,7 +982,7 @@ function fillStmt(){
    `<div class="clc"><div class="clt"><div><h4>Policy No. ${r.p}</h4></div></div>
     <div class="clg"><div><small>Line of Business</small><b>${r.l}</b></div><div><small>Current Due (SAR)</small><b>${f2(r.d)}</b></div></div>
     <div class="clf two"><button data-act="sdl" data-v="Report">${ic('dl',18,1.6)}Download Report</button><button data-act="sopen" data-v="${r.p}">View Details${ic('chev',16)}</button></div></div>`).join(''):'<div class="pmem">No statements match your filters.</div>';
-  V('.scp').innerHTML=`<button data-act="spg" data-v="-1" ${ST.pg<=1?'disabled':''}>${ic('back',20)}Prev</button><span class="cur">${ST.pg}</span><span>of ${pages}</span><button data-act="spg" data-v="1" ${ST.pg>=pages?'disabled':''}>Next${ic('arrow',20)}</button>`;
+  V('.scp').innerHTML=pager('spg',ST.pg,pages);
 }
 function renderStmt(){
   $('#v-stmt').innerHTML=`${sb()}<div class="nh"><button data-act="backCl" aria-label="Back">${ic('back',22)}</button><h2>Statements</h2></div>
@@ -1001,7 +1008,7 @@ function fillStmtD(){
   V('.scl').innerHTML=pg.length?pg.map(r=>`<div class="clc"><div class="clt"><div><h4>${r.d}</h4><p>TRX Date</p></div></div>
    <div class="clg"><div><small>TRX Number</small><b>${r.trx}</b></div><div><small>Policy No.</small><b>${r.p}</b></div>${sum?`<div><small>Risk No.</small><b>${r.r}</b></div><div><small>Line of Business</small><b>${r.l}</b></div><div><small>Due Date/Status</small><b>${r.due}</b></div>`:`<div><small>DOC</small><b>${r.doc}</b></div><div><small>Source</small><b>${r.src}</b></div><div><small>Client Code</small><b>${r.cc}</b></div>`}</div>
    ${sum?`<div class="sfd"><div><small>Debit (SAR)</small><b>${f2(r.deb)}</b></div><div><small>Credit (SAR)</small><b>${f2(r.cr)}</b></div><div><small>Balance (SAR)</small><b>${f2(r.bal)}</b></div></div>`:`<div class="sfd c2"><div><small>Debit (SAR)</small><b>${f2(r.deb)}</b></div><div><small>Credit (SAR)</small><b>${f2(r.cr)}</b></div></div>`}</div>`).join(''):'<div class="pmem">No transactions match your search.</div>';
-  V('.scp').innerHTML=`<button data-act="sdpg" data-v="-1" ${ST.dpg<=1?'disabled':''}>${ic('back',20)}Prev</button><span class="cur">${ST.dpg}</span><span>of ${pages}</span><button data-act="sdpg" data-v="1" ${ST.dpg>=pages?'disabled':''}>Next${ic('arrow',20)}</button>`;
+  V('.scp').innerHTML=pager('sdpg',ST.dpg,pages);
 }
 function renderStmtD(){
   $('#v-stmtd').innerHTML=`${sb()}<div class="nh"><button data-act="backSt" aria-label="Back">${ic('back',22)}</button><h2>Statements</h2></div>
