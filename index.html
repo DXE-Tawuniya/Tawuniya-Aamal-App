@@ -142,6 +142,7 @@ button.pc{display:block;width:100%}
 .nh{display:flex;align-items:center;gap:8px;height:56px;padding:0 12px;flex:none;background:#fff}
 .nh button{width:32px;height:36px;display:grid;place-items:center}
 .nh h2{font-size:15px;font-weight:400}
+.nh .nsr{margin-inline-start:auto;color:var(--blk)}.sbar{padding:0 16px 4px;width:100%;box-sizing:border-box;flex:none}.sbar[hidden]{display:none}.sbar .pms{flex:1;width:100%;box-sizing:border-box}
 .scroll{flex:1;overflow-y:auto;scrollbar-width:none;min-height:0;position:relative}
 .scroll::-webkit-scrollbar{display:none}
 .crow{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--ln);border-radius:12px;padding:16px;position:relative;transition:box-shadow .2s,border-color .2s}
@@ -940,8 +941,8 @@ function fillMembers(){
 }
 function renderMPick(){
   S.xQ='';
-  $('#v-mpick').innerHTML=`${sb()}<div class="nh"><button data-act="backMpick" aria-label="Back">${ic('back',22)}</button><h2>Policy Members</h2></div>
-  <div class="scroll"><div class="mpw"><p>Select a policy to view its members.</p><label class="pms">${pmi('search',20)}<input id="xq" type="search" placeholder="Search by policy number" aria-label="Search policies" autocomplete="off"></label><div class="list" id="xlist"></div></div></div><i class="hind"></i>`;
+  $('#v-mpick').innerHTML=`${sb()}<div class="nh"><button data-act="backMpick" aria-label="Back">${ic('back',22)}</button><h2>Policy Members</h2><button class="nsr" data-act="xsrch" aria-label="Search policies">${ic('search',24,1.6)}</button></div><div class="sbar" id="xsb" hidden><label class="pms">${pmi('search',20)}<input id="xq" type="search" placeholder="Search by policy number" aria-label="Search policies" autocomplete="off"></label></div>
+  <div class="scroll"><div class="mpw"><p>Select a policy to view its members.</p><div class="list" id="xlist"></div></div></div><i class="hind"></i>`;
   fillMPick();
 }
 function fillMPick(){
@@ -951,8 +952,8 @@ function fillMPick(){
 }
 function renderMembers(){
   if(S.mOpen===undefined)S.mOpen=1;S.mPg=S.mPg||1;S.mQ='';
-  $('#v-members').innerHTML=`${sb()}<div class="nh"><button data-act="backMem" aria-label="Back">${ic('back',22)}</button><h2>Policy Members</h2></div>
-  <div class="scroll"><div class="pmw">${S.pol?`<div class="pmpol" style="margin:0 0 12px"><span>Policy No.</span><b>${S.pol.no}</b><span>Members</span><b>${S.pol.m}</b></div>`:''}<label class="pms">${pmi('search',20)}<input id="mq" type="search" placeholder="Search by Member ID, Member code or Staff ID" aria-label="Search members"></label><div id="pml"></div><div class="pmp" id="pmp"></div></div></div><i class="hind"></i>`;
+  $('#v-members').innerHTML=`${sb()}<div class="nh"><button data-act="backMem" aria-label="Back">${ic('back',22)}</button><h2>Policy Members</h2><button class="nsr" data-act="msrch" aria-label="Search members">${ic('search',24,1.6)}</button></div><div class="sbar" id="msb" hidden><label class="pms">${pmi('search',20)}<input id="mq" type="search" placeholder="Search by Member ID, Member code or Staff ID" aria-label="Search members"></label></div>
+  <div class="scroll"><div class="pmw">${S.pol?`<div class="pmpol" style="margin:0 0 12px"><span>Policy No. <b>${S.pol.no}</b></span><span>Members <b>${S.pol.m}</b></span></div>`:''}<div id="pml"></div><div class="pmp" id="pmp"></div></div></div><i class="hind"></i>`;
   fillMembers();
 }
 
@@ -1213,6 +1214,8 @@ document.addEventListener('click',e=>{
    case 'members':go('mpick',S.view);break;
    case 'pickpol':S.pol=POL.find(p=>p.id===id);S.mOpen=1;S.mPg=1;go('members','mpick');break;
    case 'pdmem':S.mOpen=1;S.mPg=1;go('members','pdetail');break;
+   case 'msrch':case 'xsrch':{const m=a==='msrch',bar=$(m?'#msb':'#xsb'),inp=bar.querySelector('input'),open=bar.hidden;bar.hidden=!open;
+    b.innerHTML=ic(open?'xc':'search',24,1.6);if(open)inp.focus({preventScroll:true});else{inp.value='';if(m){S.mQ='';S.mPg=1;fillMembers()}else{S.xQ='';fillMPick()}}break}
    case 'backMpick':go(S.prev==='more'?'more':'home');break;
    case 'backMem':go(S.prev==='mpick'?'mpick':S.prev==='pdetail'?'pdetail':'home');break;
    case 'claims':go('claims','home');break;
