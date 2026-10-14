@@ -866,12 +866,12 @@ function renderPerf(){
 
 /* ---------- More + Personal Details ---------- */
 function renderMore(){
-  const G=[[['m_bld','Company Details'],['rec','Financial Statements'],['dl','Documents']],
-   [['m_map','Providers Network'],['help','Help Center'],['head','Contact Support'],['m_ai','Ask Tawuniya AI','chat']],
-   [['layout','Customize Dashboard','customize'],['m_bell','Notifications'],['m_tr','Language','chip']],
+  const G=[[['m_bld','Company Details'],['rec','Financial Statements','mstmts'],['dl','Documents']],
+   [['m_map','Providers Network','mprov'],['help','Help Center'],['head','Contact Support'],['m_ai','Ask Tawuniya AI','chat']],
+   [['layout','Customize Dashboard','mcust'],['m_bell','Notifications','mnotif'],['m_tr','Language','chip']],
    [['shield','Privacy Policy'],['m_judge','Tawuniya Auctions'],['m_secu','Principals of Customer Protection'],['m_book','Online Insurance Activities Regulation']]];
   const flag=`<svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="9" fill="#fff"/><clipPath id="fc"><circle cx="9" cy="9" r="9"/></clipPath><g clip-path="url(#fc)"><path d="M0 2h18v2H0zM0 6h18v2H0zM0 10h18v2H0zM0 14h18v2H0z" fill="#d23b4a"/><rect width="9" height="9" fill="#3b4a9c"/></g></svg>`;
-  $('#v-more').innerHTML=`<div class="stk br">${sb()}<div class="top"><h1 style="color:#fff">More</h1><div class="acts2"><button class="ib" data-act="soon" aria-label="Notifications">${ic('bell',24,1.6)}</button><button class="ib" data-act="soon" aria-label="Settings">${ic('sliders',24,1.6)}</button></div></div></div>
+  $('#v-more').innerHTML=`<div class="stk br">${sb()}<div class="top"><h1 style="color:#fff">More</h1><div class="acts2"><button class="ib" data-act="mnotif" aria-label="Notifications">${ic('bell',24,1.6)}</button></div></div></div>
   <div class="mh"><button class="prof" data-act="details"><span class="av">M</span><div style="flex:1;min-width:0"><h3>Mohammed Abdullha</h3><small>ID Type: IQAMA &nbsp;|&nbsp; ID No. 456788987</small></div>${ic('chev',22,1.8)}</button></div>
   ${G.map(g=>`<div class="grp">${g.map(r=>`<button class="row" data-act="${r[2]==='chip'?'lang':r[2]||'soon'}">${ic(r[0],20,1.6)}<span>${r[1]}</span>${r[2]==='chip'?`<em class="lang" style="font-style:normal">${flag}${window.__lang==='ar'?'AR':'EN'}${ic('chevd',14,2)}</em>`:`<span class="ch" style="flex:none">${ic('chev',16)}</span>`}</button>`).join('')}</div>`).join('')}
   <p class="foot">Copyright © Tawuniya 2025, all rights reserved<br>Version v 4.0.1</p>`;
@@ -1153,9 +1153,13 @@ document.addEventListener('click',e=>{
    case 'closeChat':closeChat();break;
    case 'shut':shut();break;
    case 'customize':go('customize',S.view);break;
+   case 'mcust':go('customize','more');break;
+   case 'mnotif':go('notif','more');break;
+   case 'mprov':go('prov','more');break;
+   case 'mstmts':Object.assign(ST,{tab:'pol',lob:'',q:'',pg:1,sort:'',fs:'',fy:'',fm:'',sf:{s:'',y:'',m:''}});go('stmt','more');break;
    case 'pcustomize':go('pcustomize','performance');break;
    case 'tog':togSection(b.dataset.id);break;
-   case 'saveCust':if(S.view==='customize'){S.sections=S.draft.map(s=>({...s}));go('home');toast('Dashboard updated')}else{S.widgets=S.draft.map(s=>({...s}));go('performance');toast('Widgets updated')}break;
+   case 'saveCust':if(S.view==='customize'){S.sections=S.draft.map(s=>({...s}));go(S.prev==='more'?'more':'home');toast('Dashboard updated')}else{S.widgets=S.draft.map(s=>({...s}));go('performance');toast('Widgets updated')}break;
    case 'cancelCust':go(S.view==='pcustomize'?'performance':(S.prev||'home'));break;
    case 'open':if(e.target.closest('[data-act=pin]'))break;S.pol=POL.find(p=>p.id===id);S.dTab=0;S.hTab=0;go('pdetail',S.view);break;
    case 'pin':{e.stopPropagation();if(!S.pinned.has(id)&&S.pinned.size>=MAXPIN){toast('You can pin up to '+MAXPIN+' policies. Unpin one to add another.',1);break}S.pinned.has(id)?S.pinned.delete(id):S.pinned.add(id);const k=$('#v-policies').scrollTop;renderPolicies.keep=1;renderPolicies();renderPolicies.keep=0;$('#v-policies').scrollTop=k;break}
@@ -1183,7 +1187,7 @@ document.addEventListener('click',e=>{
    case 'backMem':go('home');break;
    case 'claims':go('claims','home');break;
    case 'endors':go('endors','home');break;
-   case 'backCl':go('home');break;
+   case 'backCl':go(S.prev==='more'&&['stmt','prov','notif'].includes(S.view)?'more':'home');break;
    case 'stmts':Object.assign(ST,{tab:'pol',lob:'',q:'',pg:1,sort:'',fs:'',fy:'',fm:'',sf:{s:'',y:'',m:''}});go('stmt','home');break;
    case 'stab':ST.tab=v;ST.pg=1;fillStmt();break;
    case 'slob':ST.lob=v;ST.pg=1;fillStmt();break;
