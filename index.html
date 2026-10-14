@@ -224,7 +224,7 @@ button.pc{display:block;width:100%}
 /* policy members */
 .pmpol{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:10px 12px;border-radius:8px;background:var(--lt);font-size:12px;color:#6b7283}
 .pmpol b{color:var(--blk);font-weight:500}
-.mpw{padding:16px 16px 28px}.mpw>p{margin:0 0 12px;font-size:14px;line-height:20px;color:#6b7283}.mpw .list{margin-top:12px}
+.mpw{padding:16px 16px 28px}.mpw>p{margin:0 0 12px;font-size:14px;line-height:20px;color:#6b7283}.mpw .list{margin-top:16px;padding:0}
 .pmw{padding:16px 16px 28px}
 .pms{display:flex;align-items:center;gap:8px;height:48px;border:1px solid var(--ln);border-radius:8px;padding:0 12px;background:#fff;color:#6b7283}
 .pms input{flex:1;min-width:0;border:0;outline:0;background:none;font:inherit;font-size:12px;text-overflow:ellipsis;color:var(--blk)}
@@ -920,11 +920,22 @@ function pmDetail(m){
    ${DEP.map(d=>`<div class="pmdp">${pmGen(d[2])}<div class="pmb"><h4>${d[0]}</h4><div class="pmd"><span>Card Code:<b>0010709899001</b></span><span>ID:<b>0010709899001</b></span><span>Relation:<b>${d[1]}</b></span></div>${pmTags()}</div><button class="pmx2" data-act="soon" aria-label="More options" style="color:var(--brand)">${pmi('more',20)}</button></div>`).join('')}
    <div class="pmbt"><button data-act="soon">${pmi('useradd',20)}<span>Add Dependent</span></button><button data-act="soon">${pmi('useredit',20)}<span>Edit Sponsor</span></button></div></div>`;
 }
+const MFN=['Abdulrahman','Khalid','Sultan','Faisal','Turki','Nasser','Saad','Majed','Yazeed','Badr','Hessa','Maha','Sara','Hanan','Amal','Dalal','Lama','Jawaher'],MLN=['Alotaibi','Alghamdi','Alqahtani','Alharbi','Alzahrani','Aldossari','Alshehri','Almutairi','Alsubaie','Alanazi'];
+const MEMC={};
+function polMembers(p){
+  const n=p?p.m:MEM.length;if(MEMC[n])return MEMC[n];
+  return MEMC[n]=Array.from({length:n},(_,k)=>{if(k<MEM.length)return MEM[k];
+    const b=MEM[k%MEM.length],f=MFN[(k*7)%MFN.length],g=MFN.indexOf(f)>=10?'f':'m';
+    return {...b,g,n:`${f} ${MFN[(k*3)%10]} ${MFN[(k*5)%10]} ${MLN[(k*3)%MLN.length]}`,c:String(10709899001+k*13).padStart(13,'0'),i:String(1060000000+k*7919).slice(0,10),k:1+k%3}});
+}
+const MPS=7;
 function fillMembers(){
-  const q=(S.mQ||'').trim().toLowerCase();
-  const rows=MEM.map((m,k)=>[m,k]).filter(([m])=>!q||(m.n+m.c+m.i).toLowerCase().includes(q));
+  const q=(S.mQ||'').trim().toLowerCase(),all=polMembers(S.pol);
+  const f=all.map((m,k)=>[m,k]).filter(([m])=>!q||(m.n+m.c+m.i).toLowerCase().includes(q)),pages=Math.max(1,Math.ceil(f.length/MPS));
+  S.mPg=Math.min(pages,Math.max(1,S.mPg||1));S.mPages=pages;
+  const rows=f.slice((S.mPg-1)*MPS,S.mPg*MPS);
   $('#pml').innerHTML=rows.length?rows.map(([m,k])=>{const o=S.mOpen===k;return `<div class="pmc"><div class="pmr">${pmGen(m.g)}<div class="pmb"><h4>${m.n}</h4><div class="pmd"><span>Card Code:<b>${m.c}</b></span><span>ID:<b>${m.i}</b></span></div>${pmTags()}</div><button class="pmx" data-act="mtog" data-v="${k}" aria-expanded="${o}" aria-label="${o?'Collapse':'Expand'} member">${pmi('arrowup',20)}</button></div>${o?pmDetail(m):''}</div>`}).join(''):'<div class="pmem">No members match your search.</div>';
-  $('#pmp').innerHTML=pager('mpg',S.mPg,11);
+  $('#pmp').innerHTML=pages>1?pager('mpg',S.mPg,pages):'';
 }
 function renderMPick(){
   S.xQ='';
@@ -940,7 +951,7 @@ function fillMPick(){
 function renderMembers(){
   if(S.mOpen===undefined)S.mOpen=1;S.mPg=S.mPg||1;S.mQ='';
   $('#v-members').innerHTML=`${sb()}<div class="nh"><button data-act="backMem" aria-label="Back">${ic('back',22)}</button><h2>Policy Members</h2></div>
-  <div class="scroll"><div class="pmw">${S.pol?`<div class="pmpol" style="margin:0 0 12px"><span>Policy No.</span><b>${S.pol.no}</b></div>`:''}<label class="pms">${pmi('search',20)}<input id="mq" type="search" placeholder="Search by Member ID, Member code or Staff ID" aria-label="Search members"></label><div id="pml"></div><div class="pmp" id="pmp"></div></div></div><i class="hind"></i>`;
+  <div class="scroll"><div class="pmw">${S.pol?`<div class="pmpol" style="margin:0 0 12px"><span>Policy No.</span><b>${S.pol.no}</b><span>Members</span><b>${S.pol.m}</b></div>`:''}<label class="pms">${pmi('search',20)}<input id="mq" type="search" placeholder="Search by Member ID, Member code or Staff ID" aria-label="Search members"></label><div id="pml"></div><div class="pmp" id="pmp"></div></div></div><i class="hind"></i>`;
   fillMembers();
 }
 
@@ -1226,13 +1237,13 @@ document.addEventListener('click',e=>{
    case 'cfreset':S.cS2='';cfSheet();break;
    case 'cpg':S.cPg+= +v;fillClaims();$('#v-'+S.lk+' .scroll').scrollTop=0;break;
    case 'mtog':{const k=+v;S.mOpen=S.mOpen===k?-1:k;fillMembers();break}
-   case 'mpg':S.mPg=Math.min(11,Math.max(1,S.mPg+ +v));fillMembers();break;
+   case 'mpg':S.mPg=Math.min(S.mPages||1,Math.max(1,S.mPg+ +v));fillMembers();$('#v-members .scroll').scrollTop=0;break;
    case 'logout':sheet(`<h3>Log out?</h3><p>You will return to the sign-in screen.</p><button class="bt dg" data-act="logoutOk">Log out</button><button class="bt sc" data-act="shut">Cancel</button>`);break;
    case 'logoutOk':shut();go('home');if(LG)LG.logout();else toast('Logged out');break;
   }
 });
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-act=pin]')){e.preventDefault();e.target.click()}});
-document.addEventListener('input',e=>{if(e.target.classList.contains('lq')){S.cQ=e.target.value;S.cPg=1;fillClaims()}if(e.target.id==='vq'){S.vQ=e.target.value;fillProv()}if(e.target.id==='mq'){S.mQ=e.target.value;fillMembers()}if(e.target.id==='xq'){S.xQ=e.target.value;fillMPick()}if(e.target.id==='pq'){S.pQ=e.target.value;fillPolicies()}if(e.target.id==='rq'){S.rQ=e.target.value;fillRequests()}});
+document.addEventListener('input',e=>{if(e.target.classList.contains('lq')){S.cQ=e.target.value;S.cPg=1;fillClaims()}if(e.target.id==='vq'){S.vQ=e.target.value;fillProv()}if(e.target.id==='mq'){S.mQ=e.target.value;S.mPg=1;fillMembers()}if(e.target.id==='xq'){S.xQ=e.target.value;fillMPick()}if(e.target.id==='pq'){S.pQ=e.target.value;fillPolicies()}if(e.target.id==='rq'){S.rQ=e.target.value;fillRequests()}});
 
 /* ---------- boot ---------- */
 go('home');
